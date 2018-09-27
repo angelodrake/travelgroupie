@@ -1,0 +1,21 @@
+nav {
+  background: red;
+  color: white;
+}
+
+footer {
+  background: red;
+  color: white;
+}
+
+container {
+  margin: 5%;
+}
+
+#icon {
+  max-width: 250px;
+}
+i {
+  height: 30px;
+  width: 30px;
+}
