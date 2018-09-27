@@ -13,9 +13,18 @@ container {
 }
 
 #icon {
-  max-width: 250px;
+  max-width: 200px;
 }
 i {
   height: 30px;
   width: 30px;
+}
+
+.carousel .item img {
+  max-height: 600px;
+  min-width: auto;
+}
+body {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
