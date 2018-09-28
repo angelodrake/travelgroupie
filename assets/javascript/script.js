@@ -32,24 +32,33 @@ function displayShows() {
         }
     })
 }
-//display image
-//display name
-function displayFood() {
-
-    var city = "charlotte";
-    var foodAPI_URL = "https://developers.zomato.com/api/v2.1/search?q=" + city + "&count=4&sort=rating";
+function displayFood () {
+    //delete var on location (global)
+    var location = "charlotte";
+    var foodAPI_URL = "https://developers.zomato.com/api/v2.1/search?q=" + location + "&count=4&sort=rating";
 
     $.ajax({
-        headers: { "user-key": "8ceaf126b0d71b209d1b93d94063371d" },
+        headers: {"user-key": "8ceaf126b0d71b209d1b93d94063371d"},
         url: foodAPI_URL,
         method: "GET"
-    }).then(function (restaurants) {
+    }).then(function(input) {
+        console.log(input)
 
+        food = input.restaurants
 
-        var food = restaurants.restaurants
+        for (var f = 0; f < food.length; f++) {
+            console.log(food[f])
+            var name = food[f].restaurant.name;
+            console.log(name);
+            var type = food[f].restaurant.cuisines;
+            console.log(type);
+            var image = food[f].restaurant.featured_image;
+            console.log(image);
 
-        for (var f = 0; f < food.length; f++); {
-
+            var newDiv = $("<div>");
+            var newImg = $("<img class='zomatoImg' src='" + image + "'>");
+            newDiv.append(name, type, newImg);
+            $(".container").append(newDiv);
         }
     })
 }
