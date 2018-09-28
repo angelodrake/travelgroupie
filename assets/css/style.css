@@ -1,11 +1,11 @@
 nav {
-  background: red;
+  background: #e60000;
   color: #ffffff;
 }
 
 footer {
-  background: red;
-  color: white;
+  background: #e60000;
+  color: #ffffff;
 }
 
 container {
@@ -24,17 +24,23 @@ i {
   max-height: 600px;
   min-width: auto;
 }
+
 body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-#showsBody {
+#flexBody {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
 }
 
-#showsMain {
+#flexMain {
   flex: 1 0 auto;
+}
+
+.skyscanner-widget {
+  padding: 10px;
+  border-radius: 10px;
 }

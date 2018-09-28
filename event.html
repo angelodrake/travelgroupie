@@ -8,7 +8,7 @@
   <meta http-equiv='X-UA-Compatible' content='ie=edge'>
 
   <!-- Title of Document (Tab) -->
-  <title></title>
+  <title>Event Details</title>
 
   <!-- Bootstrap, Fontawesome, and my personal CSS Links respectively -->
   <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO'
@@ -25,8 +25,87 @@
 
 </head>
 
-<body>
+<body id="flexBody">
+<header>
 
+  <!-- NavBar -->
+  <nav class="navbar sticky-top" style="background: #262626; color: #ffffff;">
+    <a style="font-size: 28px; font-weight: bold;" class="navbar-brand ml-5">TravelGroupie</a>
+    <button class="btn rounded mr-5 bg-transparent" style="border: solid 2px #ffffff; color: #ffffff; font-size: 22px;"
+            type="button">Login
+    </button>
+  </nav>
+</header>
+
+<main id="flexMain">
+  <div class="container my-5">
+
+    <!-- Event Details Row -->
+    <div class="row">
+
+      <!-- Single event details based on which one user clicks on the previous page -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            Event Details
+          </div>
+          <div class="card-body" id="eventDetailsText">
+            &lt;Placeholder Text&gt;
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skyscanner and Zomato information Row -->
+    <div class="row mt-4 mb-5">
+      <div class="col-7 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            Flights
+          </div>
+          <div class="card-body" id="skyscanner">
+            <meta name="originLocation" content="Charlotte" />
+            <div data-skyscanner-widget="SearchWidget" data-origin-name="document.querySelector('meta[name=originLocation]').content" data-locale="en-GB" data-params="colour:solar;fontColour:#000;buttonColour:dawn;buttonFontColour:#fff;"></div>
+            <script src="https://widgets.skyscanner.net/widget-server/js/loader.js" async></script>
+          </div>
+        </div>
+      </div>
+      <div class="col-5 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            Restaurants
+          </div>
+          <div class="card-body" id="zomato">
+            &lt;Placeholder Text&gt;
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="container-fluid text-center mt-3">
+  <div class="row">
+    <div class="col-sm-4 mt-5">
+      <h3>Contact Us</h3>
+      <br>
+      <h4>support@travelgroupie.com</h4>
+      <h4>1-800-654-4371</h4>
+    </div>
+    <div class="col-sm-4 mt-5">
+      <h3>Connect</h3>
+      <br>
+      <a href="https://www.facebook.com" style="color: #ffffff;"><i class="fab fa-facebook-square mx-2" style="font-size: 32px;"></i></a>
+      <a href="https://www.twitter.com" style="color: #ffffff;"><i class="fab fa-twitter-square mx-2" style="font-size: 32px;"></i></a>
+      <a href="https://www.youtube.com" style="color: #ffffff;"><i class="fab fa-youtube-square mx-2" style="font-size: 32px;"></i></a>
+      <a href="https://www.instagram.com" style="color: #ffffff;"><i class="fab fa-instagram mx-2" style="font-size: 32px;"></i></a>
+      <a href="https://www.linkedin.com" style="color: #ffffff;"><i class="fab fa-linkedin mx-2" style="font-size: 32px;"></i></a>
+    </div>
+    <div class="col-sm-4">
+      <img src="assets/images/logo.png" class="icon img-fluid" alt="">
+    </div>
+  </div>
+</footer>
 
 
 
