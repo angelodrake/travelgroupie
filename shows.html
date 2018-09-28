@@ -18,6 +18,7 @@
         integrity='sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU'
         crossorigin='anonymous'>
   <link rel='stylesheet' type='text/css' href='assets/css/style.css'>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
   <!-- Link for Google Fonts -->
   <link rel="stylesheet" href="https://font.googleapis.com/css?family=">
@@ -47,17 +48,22 @@
         <div class="card">
           <div class="card-header" id="showsTitle">
             <!-- Insert search terms text here; ex: if the user searched for drake do .text "Upcoming 'Drake' shows" -->
-            &lt;Placeholder Text&gt;
+            <h3>Concerts</h3>
           </div>
-          <div class="card-body">
+          
             <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
               <tbody id="showsTable">
               <!-- Append the next 10 shows here -->
-              &lt;Placeholder Text&gt;
-
               </tbody>
             </table>
-          </div>
+          
         </div>
       </div>
     </div>

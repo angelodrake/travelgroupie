@@ -10,13 +10,15 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
         crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
     <nav class="navbar sticky-top">
         <a class="navbar-brand ml-5" style="font-size: 28px; font-weight: bold;">TravelGroupie</a>
-        <button class="btn bg-transparent text-light mr-5" style="border: solid 2px #ffffff; font-size: 22px;" type="button" id="login-btn">Login</button>
+        <button class="btn bg-transparent text-light mr-5" style="border: solid 2px #ffffff; font-size: 22px;" type="button"
+            id="login-btn">Login</button>
     </nav>
     <div class="container">
         <div id="carousel" class="carousel slide mb-4" data-ride="carousel">
@@ -55,12 +57,12 @@
 
                 </div>
                 <div class="col-sm-8">
-                    <form id="searchForm">
+                    <form id="searchForm" action="./shows.html" method="GET">
                         <div class="form-group">
                             <h1 class="text-center">Find an event!</h1>
                             <div class="input-group input-group-lg center-block">
-                                <input type="text" id="search-input" class="form-control" placeholder="Ex. Maroon 5">
-                                <button class="btn btn-outline-success ml-1" id="search-btn"><i class="fas fa-search"></i></button>
+                                <input type="text" name="q" id="searchInput" class="form-control" placeholder="Ex. Maroon 5">
+                                <button class="btn btn-outline-success ml-1" id="search-btn"><a href="shows.html"></a><i class="fas fa-search"></i></button>
                             </div>
                         </div>
                     </form>
@@ -133,12 +135,14 @@
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script src="assets/javascript/script.js"></script>
 </body>
 
 </html>
