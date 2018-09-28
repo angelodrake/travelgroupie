@@ -69,3 +69,7 @@ body {
 .hide {
   display: none;
 }
+.skyscanner-widget {
+  padding: 10px;
+  border-radius: 10px;
+}
