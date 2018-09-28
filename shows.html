@@ -53,7 +53,7 @@
           </div>
           
             <table>
-                <thead>
+                <thead class="ml-4">
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Location</th>
@@ -65,6 +65,30 @@
               </tbody>
             </table>
           
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4 mb-5 hide">
+      <div class="col-7 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            Flights
+          </div>
+          <div class="card-body" id="skyscanner">
+            <meta name="originLocation" content="Charlotte" />
+            <div data-skyscanner-widget="SearchWidget" data-origin-name="document.querySelector('meta[name=originLocation]').content" data-locale="en-GB" data-params="colour:solar;fontColour:#000;buttonColour:dawn;buttonFontColour:#fff;"></div>
+            <script src="https://widgets.skyscanner.net/widget-server/js/loader.js" async></script>
+          </div>
+        </div>
+      </div>
+      <div class="col-5 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            Restaurants
+          </div>
+          <div class="card-body" id="zomato">
+            &lt;Placeholder Text&gt;
+          </div>
         </div>
       </div>
     </div>
