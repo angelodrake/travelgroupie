@@ -1,10 +1,17 @@
+//show and hide user menu
 $("#login-btn").on("click", function() {
   $("#mainMenu").toggleClass("hide");
+  $("#login-btn").toggleClass("hide");
 });
+$("#close").on("click", function() {
+  $("#mainMenu").toggleClass("hide");
+  $("#login-btn").toggleClass("hide");
+});
+
 function displayShows() {
   var urlParams = new URLSearchParams(window.location.search);
   var q = urlParams.get("q");
-  console.log(q);
+
   //change var artist = to: $("searchbar").val()
   var showAPI_URL =
     "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&keyword=" +
@@ -14,8 +21,6 @@ function displayShows() {
     url: showAPI_URL,
     method: "GET"
   }).then(function(response) {
-    console.log(response);
-
     var events = response._embedded.events;
 
     for (var s = 0; s < events.length; s++) {
