@@ -1,6 +1,6 @@
 nav {
   background: red;
-  color: white;
+  color: #ffffff;
 }
 
 footer {
@@ -27,4 +27,14 @@ i {
 body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+#showsBody {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#showsMain {
+  flex: 1 0 auto;
 }

@@ -27,40 +27,64 @@
 
 </head>
 
-<body>
+<body id="showsBody">
 
 <!-- NavBar -->
-<nav class="navbar sticky-top" style="background: #262626; color: #ffffff;">
-  <a style="font-size: 28px; font-weight: bold;" class="navbar-brand ml-5">TravelGroupie</a>
-  <button class="btn rounded mr-5" style="border: solid 2px #ffffff; color: #ffffff; background: transparent; font-size: 22px;"
-          type="button">Login
-  </button>
-</nav>
+<header>
+  <nav class="navbar sticky-top" style="background: #262626; color: #ffffff;">
+    <a style="font-size: 28px; font-weight: bold;" class="navbar-brand ml-5">TravelGroupie</a>
+    <button class="btn rounded mr-5 bg-transparent" style="border: solid 2px #ffffff; color: #ffffff; font-size: 22px;"
+            type="button">Login
+    </button>
+  </nav>
+</header>
+<main id="showsMain">
+  <div class="container">
 
-<div class="container">
-
-  <!-- Main content row -->
-  <div class="row my-4">
-    <div class="col-12 my-3">
-      <div class="card">
-        <div class="card-header" id="showsTitle">
-          <!-- Insert search terms text here; ex: if the user searched for drake do .text "Upcoming 'Drake' shows" -->
-          &lt;Placeholder Text&gt;
-        </div>
-        <div class="card-body">
-          <table>
-            <tbody id="showsTable">
-            <!-- Append the next 10 shows here -->
+    <!-- Main content row -->
+    <div class="row my-4">
+      <div class="col-12 my-3">
+        <div class="card">
+          <div class="card-header" id="showsTitle">
+            <!-- Insert search terms text here; ex: if the user searched for drake do .text "Upcoming 'Drake' shows" -->
             &lt;Placeholder Text&gt;
+          </div>
+          <div class="card-body">
+            <table>
+              <tbody id="showsTable">
+              <!-- Append the next 10 shows here -->
+              &lt;Placeholder Text&gt;
 
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
+</main>
+<footer class="container-fluid text-center mt-3">
+  <div class="row">
+    <div class="col-sm-4 my-5">
+      <h3>Contact Us</h3>
+      <br>
+      <h4>support@travelgroupie.com</h4>
+      <h4>1-800-654-4371</h4>
+    </div>
+    <div class="col-sm-4 my-5">
+      <h3>Connect</h3>
+      <br>
+      <a href="https://www.facebook.com" style="color: #ffffff;"><i class="fab fa-facebook-square mx-2" style="font-size: 32px;"></i></a>
+      <a href="https://www.twitter.com" style="color: #ffffff;"><i class="fab fa-twitter-square mx-2" style="font-size: 32px;"></i></a>
+      <a href="https://www.youtube.com" style="color: #ffffff;"><i class="fab fa-youtube-square mx-2" style="font-size: 32px;"></i></a>
+      <a href="https://www.instagram.com" style="color: #ffffff;"><i class="fab fa-instagram mx-2" style="font-size: 32px;"></i></a>
+      <a href="https://www.linkedin.com" style="color: #ffffff;"><i class="fab fa-linkedin mx-2" style="font-size: 32px;"></i></a>
+    </div>
+    <div class="col-sm-4">
+      <img src="assets/images/logo.png" class="icon img-fluid" alt="">
+    </div>
+  </div>
+</footer>
 
 <!-- Javascript/jQuery links -->
 <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
