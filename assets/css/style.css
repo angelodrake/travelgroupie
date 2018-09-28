@@ -39,3 +39,8 @@ body {
 #flexMain {
   flex: 1 0 auto;
 }
+
+.skyscanner-widget {
+  padding: 10px;
+  border-radius: 10px;
+}
