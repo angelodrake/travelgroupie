@@ -11,7 +11,7 @@ $("#close").on("click", function() {
 function displayShows() {
   var urlParams = new URLSearchParams(window.location.search);
   var q = urlParams.get("q");
-
+  console.log(q);
   //change var artist = to: $("searchbar").val()
   var showAPI_URL =
     "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&keyword=" +
@@ -21,6 +21,8 @@ function displayShows() {
     url: showAPI_URL,
     method: "GET"
   }).then(function(response) {
+    console.log(response);
+
     var events = response._embedded.events;
 
     for (var s = 0; s < events.length; s++) {
@@ -42,24 +44,44 @@ function displayShows() {
     }
   });
 }
-//display image
-//display name
 function displayFood() {
-  var city = "charlotte";
+  //delete var on location (global)
+  var location = "charlotte";
   var foodAPI_URL =
     "https://developers.zomato.com/api/v2.1/search?q=" +
-    city +
+    location +
     "&count=4&sort=rating";
 
   $.ajax({
     headers: { "user-key": "8ceaf126b0d71b209d1b93d94063371d" },
     url: foodAPI_URL,
     method: "GET"
-  }).then(function(restaurants) {
-    var food = restaurants.restaurants;
+  }).then(function(input) {
+    console.log(input);
 
-    for (var f = 0; f < food.length; f++);
-    {
+    food = input.restaurants;
+
+    for (var f = 0; f < food.length; f++) {
+      console.log(food[f]);
+      var name = food[f].restaurant.name;
+      console.log(name);
+      var type = food[f].restaurant.cuisines;
+      console.log(type);
+      var image = food[f].restaurant.featured_image;
+      console.log(image);
+      var restURL = food[f].restaurant.url;
+      console.log(restURL);
+
+      var newDiv = $("<div>");
+      var newImg = $(
+        "<a href='" +
+          restURL +
+          "'><img class='zomatoImg' src='" +
+          image +
+          "'></a>"
+      );
+      newDiv.append(name, type, newImg);
+      $("#zomato").append(newDiv);
     }
   });
 }

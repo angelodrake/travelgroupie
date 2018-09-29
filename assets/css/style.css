@@ -97,10 +97,21 @@ body {
   top: 150px;
 }
 
-#footerLogo {
-  position: absolute;
+.footerLogo {
+  position: relative;
   max-height: 120px;
+  max-width: 120px;
   margin-top: 40px;
+}
+
+.zomatoImg {
+  width: 250px;
+  height: 250px;
+  overflow: auto;
+}
+
+#zomato {
+  overflow: hidden;
 }
 
 /* .gradient {
