@@ -11,12 +11,10 @@
   <title>Upcoming Shows</title>
 
   <!-- Bootstrap, Fontawesome, and my personal CSS Links respectively -->
-  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'
-        integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO'
-        crossorigin='anonymous'>
-  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'
-        integrity='sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU'
-        crossorigin='anonymous'>
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO'
+    crossorigin='anonymous'>
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css' integrity='sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU'
+    crossorigin='anonymous'>
   <link rel='stylesheet' type='text/css' href='assets/css/style.css'>
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
@@ -24,108 +22,146 @@
   <link rel="stylesheet" href="https://font.googleapis.com/css?family=">
 
   <!-- Link to Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 
 
 </head>
 
 <body id="flexBody">
 
-<!-- NavBar -->
-<header>
-  <nav class="navbar sticky-top" style="background: #262626; color: #ffffff;">
-    <a style="font-size: 28px; font-weight: bold;" class="navbar-brand ml-5">TravelGroupie</a>
-    <button class="btn rounded mr-5 bg-transparent" style="border: solid 2px #ffffff; color: #ffffff; font-size: 22px;"
-            type="button">Login
-    </button>
-  </nav>
-</header>
+  <!-- NavBar -->
+  <header>
+    <nav class="navbar sticky-top">
+      <a style="font-size: 28px; font-weight: bold;" class="navbar-brand ml-5">TravelGroupie</a>
+      <button class="btn rounded mr-5 bg-transparent" style="border: solid 2px #ffffff; color: #ffffff; font-size: 22px;"
+        type="button" id="login-btn">Login
+      </button>
+    </nav>
+  </header>
 
-<main id="flexMain">
-  <div class="container my-5">
+  <main id="flexMain">
+    <div class="container my-5">
 
-    <!-- Main content row -->
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header" id="showsTitle">
-            <!-- Insert search terms text here; ex: if the user searched for drake do .text "Upcoming 'Drake' shows" -->
-            <h3>Concerts</h3>
-          </div>
-          
+      <!-- Main content row -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header" id="showsTitle">
+              <!-- Insert search terms text here; ex: if the user searched for drake do .text "Upcoming 'Drake' shows" -->
+              <h3>Concerts</h3>
+            </div>
+
             <table>
-                <thead class="ml-4">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                </thead>
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
               <tbody id="showsTable">
-              <!-- Append the next 10 shows here -->
+                <!-- Append the next 10 shows here -->
               </tbody>
             </table>
-          
-        </div>
-      </div>
-    </div>
-    <div class="row mt-4 mb-5 hide">
-      <div class="col-7 mx-auto">
-        <div class="card">
-          <div class="card-header">
-            Flights
-          </div>
-          <div class="card-body" id="skyscanner">
-            <meta name="originLocation" content="Charlotte" />
-            <div data-skyscanner-widget="SearchWidget" data-origin-name="document.querySelector('meta[name=originLocation]').content" data-locale="en-GB" data-params="colour:solar;fontColour:#000;buttonColour:dawn;buttonFontColour:#fff;"></div>
-            <script src="https://widgets.skyscanner.net/widget-server/js/loader.js" async></script>
-          </div>
-        </div>
-      </div>
-      <div class="col-5 mx-auto">
-        <div class="card">
-          <div class="card-header">
-            Restaurants
-          </div>
-          <div class="card-body" id="zomato">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
-<footer class="container-fluid text-center mt-3">
-  <div class="row">
-    <div class="col-sm-4 mt-5">
-      <h3>Contact Us</h3>
-      <br>
-      <h4>support@travelgroupie.com</h4>
-      <h4>1-800-654-4371</h4>
-    </div>
-    <div class="col-sm-4 mt-5">
-      <h3>Connect</h3>
-      <br>
-      <a href="https://www.facebook.com" style="color: #ffffff;"><i class="fab fa-facebook-square mx-2" style="font-size: 32px;"></i></a>
-      <a href="https://www.twitter.com" style="color: #ffffff;"><i class="fab fa-twitter-square mx-2" style="font-size: 32px;"></i></a>
-      <a href="https://www.youtube.com" style="color: #ffffff;"><i class="fab fa-youtube-square mx-2" style="font-size: 32px;"></i></a>
-      <a href="https://www.instagram.com" style="color: #ffffff;"><i class="fab fa-instagram mx-2" style="font-size: 32px;"></i></a>
-      <a href="https://www.linkedin.com" style="color: #ffffff;"><i class="fab fa-linkedin mx-2" style="font-size: 32px;"></i></a>
-    </div>
-    <div class="col-sm-4">
-      <img src="assets/images/logo.png" class="icon img-fluid" alt="">
-    </div>
-  </div>
-</footer>
 
-<!-- Javascript/jQuery links -->
-<script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
-        crossorigin='anonymous'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'
-        integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49'
-        crossorigin='anonymous'></script>
-<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'
-        integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy'
-        crossorigin='anonymous'></script>
-<script src='assets/javascript/script.js'></script>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="mainMenu" class="mainMenu hide">
+      <div id="mainLogo">
+        <img src="assets/images/logo.png" height="75px" width="75px">
+      </div>
+      <div id="userLogin">
+        <div class="form-group">
+          <label for="usr">UserName:</label>
+          <input type="text" id="usr" class="form-control usr">
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" id="pwd" class="form-control pwd">
+        </div>
+        <button class="btn bg-transparent text-light mr-5 mb-1 signin-btn" style="border: solid 2px #ffffff; font-size: 22px;"
+          type="button">Sign In</button>
+        <button class="btn bg-transparent text-light mr-5 createId-btn" id="createId-btn" style="border: solid 2px #ffffff; font-size: 22px;"
+          type="button" id="">Register</button>
+        <button class="btn bg-transparent text-light mr-5 logout-btn hide" style="border: solid 2px #ffffff; font-size: 22px;"
+          type="button">Log Out</button>
+
+        <p id="firebase-message1" class="firebase-message1"></p>
+
+
+      </div>
+      <div id="userFav">
+
+      </div>
+      <div id="close">
+        <i class="far fa-times-circle"></i>
+      </div>
+    </div>
+  </main>
+
+  <div class="row mt-4 mb-5">
+    <div class="col-7 mx-auto">
+      <div class="card">
+        <div class="card-header">
+          Flights
+        </div>
+        <div class="card-body" id="skyscanner">
+          <meta name="originLocation" content="Charlotte" />
+          <div data-skyscanner-widget="SearchWidget" data-origin-name="document.querySelector('meta[name=originLocation]').content"
+            data-locale="en-GB" data-params="colour:solar;fontColour:#000;buttonColour:dawn;buttonFontColour:#fff;"></div>
+          <script src="https://widgets.skyscanner.net/widget-server/js/loader.js" async></script>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5 mx-auto">
+      <div class="card">
+        <div class="card-header">
+          Restaurants near your event!
+        </div>
+        <div class="card-body" id="zomato">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  </main>
+
+  <footer class="container-fluid text-center mt-3">
+    <div class="row">
+      <div class="col-sm-4 mt-5">
+        <h3>Contact Us</h3>
+        <br>
+        <h4>support@travelgroupie.com</h4>
+        <h4>1-800-654-4371</h4>
+      </div>
+      <div class="col-sm-4 mt-5">
+        <h3>Connect</h3>
+        <br>
+        <a href="https://www.facebook.com" style="color: #ffffff;"><i class="fab fa-facebook-square mx-2" style="font-size: 32px;"></i></a>
+        <a href="https://www.twitter.com" style="color: #ffffff;"><i class="fab fa-twitter-square mx-2" style="font-size: 32px;"></i></a>
+        <a href="https://www.youtube.com" style="color: #ffffff;"><i class="fab fa-youtube-square mx-2" style="font-size: 32px;"></i></a>
+        <a href="https://www.instagram.com" style="color: #ffffff;"><i class="fab fa-instagram mx-2" style="font-size: 32px;"></i></a>
+        <a href="https://www.linkedin.com" style="color: #ffffff;"><i class="fab fa-linkedin mx-2" style="font-size: 32px;"></i></a>
+      </div>
+      <div class="col-sm-4">
+        <img src="assets/images/logo.png" class="icon img-fluid footerLogo" alt="">
+      </div>
+    </div>
+  </footer>
+
+  <!-- Javascript/jQuery links -->
+  <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
+    crossorigin='anonymous'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49'
+    crossorigin='anonymous'></script>
+  <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy'
+    crossorigin='anonymous'></script>
+  <script src='assets/javascript/script.js'></script>
 </body>
 
 </html>
