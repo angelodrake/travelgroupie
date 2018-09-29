@@ -54,11 +54,13 @@ function displayFood () {
             console.log(type);
             var image = food[f].restaurant.featured_image;
             console.log(image);
+            var restURL = food[f].restaurant.url;
+            console.log(restURL);
 
             var newDiv = $("<div>");
-            var newImg = $("<img class='zomatoImg' src='" + image + "'>");
+            var newImg = $("<a href='" + restURL + "'><img class='zomatoImg' src='" + image + "'></a>");
             newDiv.append(name, type, newImg);
-            $(".container").append(newDiv);
+            $("#zomato").append(newDiv);
         }
     })
 }
