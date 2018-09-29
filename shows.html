@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="https://font.googleapis.com/css?family=">
 
   <!-- Link to Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 
 
 </head>
@@ -67,28 +68,37 @@
         </div>
       </div>
     </div>
-    <div id="mainMenu" class="hide">
+    <div id="mainMenu" class="mainMenu hide">
       <div id="mainLogo">
         <img src="assets/images/logo.png" height="75px" width="75px">
       </div>
       <div id="userLogin">
         <div class="form-group">
           <label for="usr">UserName:</label>
-          <input type="text" class="form-control" id="usr">
+          <input type="text" id="usr" class="form-control usr">
         </div>
         <div class="form-group">
           <label for="pwd">Password:</label>
-          <input type="password" class="form-control" id="pwd">
+          <input type="password" id="pwd" class="form-control pwd">
         </div>
-        <button class="btn bg-transparent text-light mr-5" style="border: solid 2px #ffffff; font-size: 22px;" type="button"
-          id="submit-btn">Submit</button>
-        <div id="userFav">
-          <!-- save for user favorites -->
-        </div>
-        <div id="close">
-          <i class="far fa-times-circle"></i>
-        </div>
+        <button class="btn bg-transparent text-light mr-5 mb-1 signin-btn" style="border: solid 2px #ffffff; font-size: 22px;"
+          type="button">Sign In</button>
+        <button class="btn bg-transparent text-light mr-5 createId-btn" id="createId-btn" style="border: solid 2px #ffffff; font-size: 22px;"
+          type="button" id="">Register</button>
+        <button class="btn bg-transparent text-light mr-5 logout-btn hide" style="border: solid 2px #ffffff; font-size: 22px;"
+          type="button">Log Out</button>
+
+        <p id="firebase-message1" class="firebase-message1"></p>
+
+
       </div>
+      <div id="userFav">
+
+      </div>
+      <div id="close">
+        <i class="far fa-times-circle"></i>
+      </div>
+    </div>
   </main>
 
   <div class="row mt-4 mb-5">

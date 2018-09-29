@@ -1,3 +1,153 @@
+var userAuthenticated = false;
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyCi5XqbAdfXV9xrLdO_vyb5cu1WbzD7ezE",
+  authDomain: "travelgroupie-74ca0.firebaseapp.com",
+  databaseURL: "https://travelgroupie-74ca0.firebaseio.com",
+  projectId: "travelgroupie-74ca0",
+  storageBucket: "travelgroupie-74ca0.appspot.com",
+  messagingSenderId: "233607634113"
+};
+firebase.initializeApp(config);
+
+// authorization layout
+// firebase.auth().onAuthStateChanged(function (user) {
+
+//     if (user) {
+//         // User is signed in.
+//         $('#login-btn').css("display", "none")
+//         $('#register-btn').css("display", "none") //buttons gone
+
+//         $('.user_div').css("display", "block"); //only welcome
+//         $('.login_div').css("display", "none")
+//         $('.register_div').css("display", "none")
+
+//         var userId = firebase.auth().currentUser.uid;
+
+//         if (user != null) {
+
+//         //     /////////////////////////////////////
+//         //     var userEmail = $('usr').val()
+//         //   //////////////////////////////////////////
+//             $('#welcome-message').text('welcome back user :' + user.email);
+
+//         }
+
+//     } else {
+//         // No user is signed in.
+//         $('#login-btn').css("display", "block")
+//         $('#register-btn').css("display", "block") // only 2 buttons
+
+//         $('.user_div').css("display", "none");
+//         $('.login_div').css("display", "none")
+//         $('.register_div').css("display", "none")
+//     }
+// });
+
+//log-in button
+$(".signin-btn").on("click", function login() {
+  var userEmail = $(".usr").val();
+  var userPw = $(".pwd").val();
+
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(userEmail, userPw)
+
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      $(".firebase-message1").text(errorMessage);
+    });
+  $(".logout-btn").toggleClass("hide");
+  $(".signin-btn").toggleClass("hide");
+  $(".createId-btn").toggleClass("hide");
+});
+
+//log out button
+$(".logout-btn").on("click", function loginout() {
+  firebase.auth().signOut();
+  $(".logout-btn").toggleClass("hide");
+  $(".signin-btn").toggleClass("hide");
+  $(".createId-btn").toggleClass("hide");
+});
+
+var database = firebase.database();
+
+//create account button
+$("#createId-btn").on("click", function createAcc() {
+  var userEmail = $("#usr").val();
+  var userPw = $("#pwd").val();
+
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(userEmail, userPw)
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+      console.log(userEmail);
+      console.log(userPw);
+      console.log(error.code);
+      console.log(error.message);
+      $(".firebase-message1").text(error.message);
+    });
+  $(".logout-btn").toggleClass("hide");
+  $(".signin-btn").toggleClass("hide");
+  $(".createId-btn").toggleClass("hide");
+  writeUserData();
+});
+
+// pushing some user info to firebase
+function writeUserData(userEmail, uid) {
+  var uid = firebase
+    .database()
+    .ref()
+    .child("users")
+    .push().key;
+  var userEmail = $(".usr").val();
+
+  var data = {
+    user_id: uid,
+    userEmail: userEmail
+  };
+
+  var updates = {};
+  updates["/users/" + uid] = data;
+  firebase
+    .database()
+    .ref()
+    .update(updates);
+}
+
+// // push search history
+// $("#search-btn").on("click", function() {
+//   pushArtist();
+// });
+
+// function pushArtist(artist) {
+//   var artist = $("#searchInput")
+//     .val()
+//     .trim();
+
+//   // var uid = firebase.database().ref().child('users').push().key;
+//   // var userEmail = $('#email-field2').val();
+
+//   var data = {
+//     //  user_id: uid,
+//     //  userEmail: userEmail
+//     artist: artist
+//   };
+
+//   var updates = {};
+//   updates["/users/" + uid] = data;
+//   firebase
+//     .database()
+//     .ref()
+//     .update(updates);
+// }
+
 //show and hide user menu
 $("#login-btn").on("click", function() {
   $("#mainMenu").toggleClass("hide");

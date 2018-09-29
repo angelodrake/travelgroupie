@@ -73,6 +73,7 @@ body {
   left: 50%;
   height: 30px;
   width: 50px;
+  color: #ffffff;
 }
 #close:hover {
   cursor: pointer;
