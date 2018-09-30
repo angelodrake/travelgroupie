@@ -48,27 +48,6 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 
-// function pushArtist(artist) {
-//   var artist = $("#searchInput")
-//     .val()
-//     .trim();
-
-//   // var uid = firebase.database().ref().child('users').push().key;
-//   // var userEmail = $('#email-field2').val();
-
-//   var data = {
-//     //  user_id: uid,
-//     //  userEmail: userEmail
-//     artist: artist
-//   };
-
-//   var updates = {};
-//   updates["/users/" + uid] = data;
-//   firebase
-//     .database()
-//     .ref()
-//     .update(updates);
-// }
 var database = firebase.database();
 
 function writeUserData() {
@@ -98,26 +77,43 @@ function displayShows() {
     method: "GET"
   }).then(function(response) {
     var events = response._embedded.events;
-
+    console.log(events);
     for (var s = 0; s < events.length; s++) {
       var show = events[s].name;
       var location = events[s]._embedded.venues[0].city.name;
       var date = events[s].dates.start.localDate;
+      var photo = events[s].images[0];
+      var showInfo = events[s].ticketLimit.info;
+      var ticketMaster = events[s].url;
       var convertedDate = moment(date, "YYYY/MM/DD").format("MM/DD/YYYY");
 
       var newDiv = $("<tr class='mb-3'>");
       var showCol = $("<td>");
       var showURL = showCol.append(
-        "<a href='" + response._embedded.events[s].url + "'>" + show + "</a>"
+        "<a href='#' data-location='" +
+          location +
+          "'data-url='" +
+          ticketMaster +
+          "' data-date='" +
+          convertedDate +
+          "' data-info='" +
+          showInfo +
+          "' data-photo='" +
+          photo +
+          "'>" +
+          show +
+          "</a>"
       );
       var locCol = $("<td>").text(location);
       var dateCol = $("<td>").text(convertedDate);
+      showURL.addClass("show-link");
 
       newDiv.append(showURL, locCol, dateCol);
       $("#showsTable").append(newDiv);
     }
   });
 }
+
 function displayFood() {
   //delete var on location (global)
   var location = "charlotte";
