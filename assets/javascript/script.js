@@ -9,122 +9,44 @@ var config = {
   messagingSenderId: "233607634113"
 };
 firebase.initializeApp(config);
+firebase
+  .auth()
+  .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+  .then(function() {
+    // Existing and future Auth states are now persisted in the current
+    // session only. Closing the window would clear any existing state even
+    // if a user forgets to sign out.
+    // ...
+    // New sign-in will be persisted with session persistence.
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+  })
+  .catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+  });
 
 // authorization layout
-// firebase.auth().onAuthStateChanged(function (user) {
-
-//     if (user) {
-//         // User is signed in.
-//         $('#login-btn').css("display", "none")
-//         $('#register-btn').css("display", "none") //buttons gone
-
-//         $('.user_div').css("display", "block"); //only welcome
-//         $('.login_div').css("display", "none")
-//         $('.register_div').css("display", "none")
-
-//         var userId = firebase.auth().currentUser.uid;
-
-//         if (user != null) {
-
-//         //     /////////////////////////////////////
-//         //     var userEmail = $('usr').val()
-//         //   //////////////////////////////////////////
-//             $('#welcome-message').text('welcome back user :' + user.email);
-
-//         }
-
-//     } else {
-//         // No user is signed in.
-//         $('#login-btn').css("display", "block")
-//         $('#register-btn').css("display", "block") // only 2 buttons
-
-//         $('.user_div').css("display", "none");
-//         $('.login_div').css("display", "none")
-//         $('.register_div').css("display", "none")
-//     }
-// });
-
-//log-in button
-$(".signin-btn").on("click", function login() {
-  var userEmail = $(".usr").val();
-  var userPw = $(".pwd").val();
-
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(userEmail, userPw)
-
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      $(".firebase-message1").text(errorMessage);
-    });
-  $(".logout-btn").toggleClass("hide");
-  $(".signin-btn").toggleClass("hide");
-  $(".createId-btn").toggleClass("hide");
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    //write user data and toggle buttons if login succesful
+    $(".logout-btn").removeClass("hide");
+    $(".signin-btn").addClass("hide");
+    $(".createId-btn").addClass("hide");
+    $(".firebase-message1").text("");
+    userAuthenticated = true;
+    console.log("User logged in");
+  } else {
+    // No user is signed in.
+    console.log("User logged out");
+    $(".logout-btn").addClass("hide");
+    $(".signin-btn").removeClass("hide");
+    $(".createId-btn").removeClass("hide");
+    $(".firebase-message1").text("");
+    userAuthenticated = false;
+  }
 });
-
-//log out button
-$(".logout-btn").on("click", function loginout() {
-  firebase.auth().signOut();
-  $(".logout-btn").toggleClass("hide");
-  $(".signin-btn").toggleClass("hide");
-  $(".createId-btn").toggleClass("hide");
-});
-
-var database = firebase.database();
-
-//create account button
-$("#createId-btn").on("click", function createAcc() {
-  var userEmail = $("#usr").val();
-  var userPw = $("#pwd").val();
-
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(userEmail, userPw)
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-      console.log(userEmail);
-      console.log(userPw);
-      console.log(error.code);
-      console.log(error.message);
-      $(".firebase-message1").text(error.message);
-    });
-  $(".logout-btn").toggleClass("hide");
-  $(".signin-btn").toggleClass("hide");
-  $(".createId-btn").toggleClass("hide");
-  writeUserData();
-});
-
-// pushing some user info to firebase
-function writeUserData(userEmail, uid) {
-  var uid = firebase
-    .database()
-    .ref()
-    .child("users")
-    .push().key;
-  var userEmail = $(".usr").val();
-
-  var data = {
-    user_id: uid,
-    userEmail: userEmail
-  };
-
-  var updates = {};
-  updates["/users/" + uid] = data;
-  firebase
-    .database()
-    .ref()
-    .update(updates);
-}
-
-// // push search history
-// $("#search-btn").on("click", function() {
-//   pushArtist();
-// });
 
 // function pushArtist(artist) {
 //   var artist = $("#searchInput")
@@ -147,21 +69,25 @@ function writeUserData(userEmail, uid) {
 //     .ref()
 //     .update(updates);
 // }
+var database = firebase.database();
 
-//show and hide user menu
-$("#login-btn").on("click", function() {
-  $("#mainMenu").toggleClass("hide");
-  $("#login-btn").toggleClass("hide");
-});
-$("#close").on("click", function() {
-  $("#mainMenu").toggleClass("hide");
-  $("#login-btn").toggleClass("hide");
-});
+function writeUserData() {
+  var userEmail = $(".usr").val();
+  var userData = "placeholder";
+  var userID = firebase.auth().currentUser.uid;
+  firebase
+    .database()
+    .ref("users/" + userID)
+    .set({
+      username: userEmail,
+      favorites: userData
+    });
+}
 
 function displayShows() {
   var urlParams = new URLSearchParams(window.location.search);
   var q = urlParams.get("q");
-  console.log(q);
+
   //change var artist = to: $("searchbar").val()
   var showAPI_URL =
     "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&keyword=" +
@@ -171,8 +97,6 @@ function displayShows() {
     url: showAPI_URL,
     method: "GET"
   }).then(function(response) {
-    console.log(response);
-
     var events = response._embedded.events;
 
     for (var s = 0; s < events.length; s++) {
@@ -207,20 +131,13 @@ function displayFood() {
     url: foodAPI_URL,
     method: "GET"
   }).then(function(input) {
-    console.log(input);
-
     food = input.restaurants;
 
     for (var f = 0; f < food.length; f++) {
-      console.log(food[f]);
       var name = food[f].restaurant.name;
-      console.log(name);
       var type = food[f].restaurant.cuisines;
-      console.log(type);
       var image = food[f].restaurant.featured_image;
-      console.log(image);
       var restURL = food[f].restaurant.url;
-      console.log(restURL);
 
       var newDiv = $("<div>");
       var newImg = $(
@@ -236,9 +153,56 @@ function displayFood() {
   });
 }
 
+//show and hide user menu
+$("#login-btn").on("click", function() {
+  $("#mainMenu").toggleClass("hide");
+  $("#login-btn").toggleClass("hide");
+});
+$("#close").on("click", function() {
+  $("#mainMenu").toggleClass("hide");
+  $("#login-btn").toggleClass("hide");
+});
 $("#search-button").on("click", function(event) {
   event.preventDefault();
   displayShows();
 });
+//log-in button
+$(".signin-btn").on("click", function login() {
+  var userEmail = $(".usr").val();
+  var userPw = $(".pwd").val();
+
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(userEmail, userPw)
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorMessage = error.message;
+      $(".firebase-message1").text(errorMessage);
+    });
+});
+
+$(".createId-btn").on("click", function login() {
+  var userEmail = $(".usr").val();
+  var userPw = $(".pwd").val();
+
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(userEmail, userPw)
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorMessage = error.message;
+      $(".firebase-message1").text(errorMessage);
+    })
+    .then(writeUserData);
+});
+//log out button
+$(".logout-btn").on("click", function loginout() {
+  firebase.auth().signOut();
+  $(".logout-btn").toggleClass("hide");
+  $(".signin-btn").toggleClass("hide");
+  $(".createId-btn").toggleClass("hide");
+  $(".firebase-message1").text("");
+});
+
 displayShows();
 displayFood();
