@@ -34,7 +34,7 @@
     <nav class="navbar sticky-top gradient">
         <a class="navbar-brand ml-5" style="font-family: 'Molle', cursive; font-size: 32px; font-weight: bold;">TravelGroupie</a>
         <button class="btn bg-transparent text-light mr-5 login-btn" id="login-btn" style="border: solid 2px #ffffff; font-size: 22px;"
-            type="button">Login</button>
+            type="button">Menu</button>
     </nav>
     <div class="container">
         <div id="carousel" class="carousel slide mb-4" data-ride="carousel">
@@ -77,7 +77,7 @@
                         <div class="form-group">
                             <h1 class="text-center">Find an event!</h1>
                             <div class="input-group input-group-lg center-block">
-                                <input type="text" name="q" id="searchInput" class="form-control" placeholder="Ex. Maroon 5">
+                                <input type="text" name="q" id="searchInput" class="form-control" placeholder="Ex. Migos">
                                 <button class="btn btn-outline-success ml-1" id="search-btn"><a href="shows.html"></a><i
                                         class="fas fa-search"></i></button>
                             </div>
@@ -92,21 +92,24 @@
                 <div class="col-sm-3 mt-5 overlayDiv text-center mx-auto">
                     <img src="assets/images/icons8-search-100.png" id="searchIcon">
                     <div class="overlay rounded">
-                        <div class="overlayText mx-auto text-center mt-4">Search for your favorite artists, we'll find upcoming events in the US!</div>
+                        <div class="overlayText mx-auto text-center mt-4">Search for your favorite artists, we'll find
+                            upcoming events in the US!</div>
                     </div>
                     <h4>Search</h4>
                 </div>
                 <div class="col-sm-3 mt-5 overlayDiv text-center mx-auto">
                     <img src="assets/images/icons8-airport-100.png" id="flightsIcon">
                     <div class="overlay rounded">
-                        <div class="overlayText mx-auto text-center mt-4">Then we'll find a list for possible flights you can take to see the concert!</div>
+                        <div class="overlayText mx-auto text-center mt-4">Then we'll find a list for possible flights
+                            you can take to see the concert!</div>
                     </div>
                     <h4>Flights</h4>
                 </div>
                 <div class="col-sm-3 mt-5 overlayDiv text-center mx-auto">
                     <img src="assets/images/icons8-food-100.png" id="restaurantsIcon">
                     <div class="overlay rounded">
-                        <div class="overlayText mx-auto text-center mt-4">We'll also find high rated restaurants of all types of cuisine in the area!</div>
+                        <div class="overlayText mx-auto text-center mt-4">We'll also find high rated restaurants of all
+                            types of cuisine in the area!</div>
                     </div>
                     <h4>Restaurants</h4>
                 </div>
@@ -154,16 +157,16 @@
                 type="button">Sign In</button>
             <button class="btn bg-transparent text-light mr-5 createId-btn" id="createId-btn" style="border: solid 2px #ffffff; font-size: 22px;"
                 type="button" id="">Register</button>
-            <button class="btn bg-transparent text-light mr-5 logout-btn" style="border: solid 2px #ffffff; font-size: 22px;"
-                type="button">Log Out</button>
-
             <p id="firebase-message1" class="firebase-message1"></p>
-
-
         </div>
-        <div id="userFav">
+        <div id="userFav" class="hide">
+            <p class="welcome-msg"></p>
+            <div class="user-list">
 
+            </div>
         </div>
+        <button class="btn bg-transparent text-light mr-5 logout-btn" style="border: solid 2px #ffffff; font-size: 22px;"
+            type="button">Log Out</button>
         <div id="close">
             <i class="far fa-times-circle"></i>
         </div>

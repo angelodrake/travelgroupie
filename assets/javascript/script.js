@@ -32,17 +32,40 @@ firebase.auth().onAuthStateChanged(function(user) {
     // User is signed in.
     //write user data and toggle buttons if login succesful
     $(".logout-btn").removeClass("hide");
-    $(".signin-btn").addClass("hide");
-    $(".createId-btn").addClass("hide");
+    $("#userLogin").addClass("hide");
+    $("#userFav").removeClass("hide");
     $(".firebase-message1").text("");
     userAuthenticated = true;
     console.log("User logged in");
+
+    var userId = firebase.auth().currentUser.uid;
+
+    firebase
+      .database()
+      .ref("/users/" + userId)
+      .once("value")
+      .then(function(snapshot) {
+        var fav = snapshot.val().favorites;
+
+        $(".user-list").empty();
+        for (i = 1; i < fav.length; i++) {
+          var favLink = $("<a>");
+          var link = "shows.html";
+          favLink.text(fav[i]);
+          favLink.addClass("fav-links");
+          favLink.attr("href", link);
+
+          $(".user-list").append(favLink);
+          $(".user-list").append("<br> <br>");
+        }
+      });
+    // ...
   } else {
     // No user is signed in.
     console.log("User logged out");
     $(".logout-btn").addClass("hide");
-    $(".signin-btn").removeClass("hide");
-    $(".createId-btn").removeClass("hide");
+    $("#userLogin").removeClass("hide");
+    $("#userFav").addClass("hide");
     $(".firebase-message1").text("");
     userAuthenticated = false;
   }
@@ -52,7 +75,7 @@ var database = firebase.database();
 
 function writeUserData() {
   var userEmail = $(".usr").val();
-  var userData = "placeholder";
+  var userData = [0];
   var userID = firebase.auth().currentUser.uid;
   firebase
     .database()
@@ -69,7 +92,7 @@ function displayShows() {
 
   //change var artist = to: $("searchbar").val()
   var showAPI_URL =
-    "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&keyword=" +
+    "https://app.ticketmaster.com/discovery/v2/events.json?keyword=" +
     q +
     "&apikey=noHazJHm5x0GrV21AbEv7JKS4WVzGswJ";
   $.ajax({
@@ -128,7 +151,7 @@ function displayFood(city) {
     method: "GET"
   }).then(function(input) {
     food = input.restaurants;
-
+    $("#zomato").empty();
     for (var f = 0; f < food.length; f++) {
       var name = food[f].restaurant.name;
       var type = food[f].restaurant.cuisines;
@@ -144,9 +167,32 @@ function displayFood(city) {
           "'></a>"
       );
       newDiv.append(newImg, " | ", name, "<br>", type, "<hr>");
+
       $("#zomato").append(newDiv);
     }
   });
+}
+
+function pushFavorite() {
+  //get user fav array
+  var userId = firebase.auth().currentUser.uid;
+  firebase
+    .database()
+    .ref("/users/" + userId)
+    .once("value")
+    .then(function(snapshot) {
+      //read fav array
+      var favorites = snapshot.val().favorites;
+      var newFav = $("#detailsTitle").text();
+      favorites.push(newFav);
+
+      var userID = firebase.auth().currentUser.uid;
+      firebase
+        .database()
+        .ref("users/" + userID)
+        .child("favorites")
+        .set(favorites);
+    });
 }
 
 //show and hide user menu
@@ -198,10 +244,10 @@ $(".createId-btn").on("click", function login() {
 //log out button
 $(".logout-btn").on("click", function loginout() {
   firebase.auth().signOut();
-  $(".logout-btn").toggleClass("hide");
-  $(".signin-btn").toggleClass("hide");
-  $(".createId-btn").toggleClass("hide");
-  $(".firebase-message1").text("");
+  // $(".logout-btn").toggleClass("hide");
+  // $(".signin-btn").toggleClass("hide");
+  // $(".createId-btn").toggleClass("hide");
+  // $(".firebase-message1").text("");
 });
 $(document).on("click", ".show-link", function() {
   var eventImage = $(this).attr("data-photo");
@@ -218,6 +264,15 @@ $(document).on("click", ".show-link", function() {
   $("#detailsTitle").text(eventTitle);
   $("#buyTickets").attr("href", eventTickets);
   $("#infoDiv").removeClass("hide");
+});
+$(document).on("click", ".fa-star", function(event) {
+  event.preventDefault;
+  pushFavorite();
+});
+$(document).on("click", ".fav-links", function(event) {
+  favSearch = $(this).text();
+  $("#searchInput").val(favSearch);
+  $("#search-button").trigger("click");
 });
 
 displayShows();
