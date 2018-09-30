@@ -151,11 +151,15 @@ function displayFood(city) {
 
 //show and hide user menu
 $("#login-btn").on("click", function() {
-  $("#mainMenu").toggleClass("hide");
+  $("#mainMenu").animate({
+    width: '300px'
+  })
   $("#login-btn").toggleClass("hide");
 });
 $("#close").on("click", function() {
-  $("#mainMenu").toggleClass("hide");
+  $("#mainMenu").animate({
+    width: '0px'
+  })
   $("#login-btn").toggleClass("hide");
 });
 $("#search-button").on("click", function(event) {
@@ -217,3 +221,4 @@ $(document).on("click", ".show-link", function() {
 });
 
 displayShows();
+
