@@ -106,13 +106,17 @@ body {
 }
 
 .zomatoImg {
-  width: 250px;
-  height: 250px;
+  max-width: 112px;
+  max-height: 63px;
   overflow: auto;
 }
 
 #zomato {
   overflow: hidden;
+}
+
+#eventTitle {
+  font-size: 42px;
 }
 
 /* .gradient {

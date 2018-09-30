@@ -143,7 +143,7 @@ function displayFood() {
           image +
           "'></a>"
       );
-      newDiv.append(name, type, newImg);
+      newDiv.append(newImg, " | ", name, "<br>", type, "<hr>");
       $("#zomato").append(newDiv);
     }
   });
