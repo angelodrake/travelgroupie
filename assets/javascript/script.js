@@ -82,7 +82,7 @@ function displayShows() {
       var show = events[s].name;
       var location = events[s]._embedded.venues[0].city.name;
       var date = events[s].dates.start.localDate;
-      var photo = events[s].images[0];
+      var photo = events[s].images[2].url;
       var showInfo = events[s].ticketLimit.info;
       var ticketMaster = events[s].url;
       var convertedDate = moment(date, "YYYY/MM/DD").format("MM/DD/YYYY");
@@ -100,13 +100,12 @@ function displayShows() {
           showInfo +
           "' data-photo='" +
           photo +
-          "'>" +
+          "' class='show-link'>" +
           show +
-          "</a>"
+          " </a>"
       );
       var locCol = $("<td>").text(location);
       var dateCol = $("<td>").text(convertedDate);
-      showURL.addClass("show-link");
 
       newDiv.append(showURL, locCol, dateCol);
       $("#showsTable").append(newDiv);
@@ -114,16 +113,17 @@ function displayShows() {
   });
 }
 
-function displayFood() {
+function displayFood(city) {
   //delete var on location (global)
   var location = "charlotte";
   var foodAPI_URL =
     "https://developers.zomato.com/api/v2.1/search?q=" +
     location +
     "&count=4&sort=rating";
+  console.log(foodAPI_URL);
 
   $.ajax({
-    headers: { "user-key": "8ceaf126b0d71b209d1b93d94063371d" },
+    headers: { "user-key": "25393e0be571d9d77efecdb57524950b" },
     url: foodAPI_URL,
     method: "GET"
   }).then(function(input) {
@@ -199,6 +199,21 @@ $(".logout-btn").on("click", function loginout() {
   $(".createId-btn").toggleClass("hide");
   $(".firebase-message1").text("");
 });
+$(document).on("click", ".show-link", function() {
+  var eventImage = $(this).attr("data-photo");
+  var eventInfo = $(this).attr("data-info");
+  var eventTitle = $(this).text();
+  var eventTickets = $(this).attr("data-url");
+  var foodLocation = $(this).attr("data-location");
+  console.log(foodLocation);
+
+  displayFood(foodLocation);
+
+  $("#detailsImg").attr("src", eventImage);
+  $("#detailsText").text(eventInfo);
+  $("#detailsTitle").text(eventTitle);
+  $("#buyTickets").attr("href", eventTickets);
+  $("#infoDiv").removeClass("hide");
+});
 
 displayShows();
-displayFood();
