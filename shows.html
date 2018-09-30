@@ -19,7 +19,10 @@
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
   <!-- Link for Google Fonts -->
-  <link rel="stylesheet" href="https://font.googleapis.com/css?family=">
+  <link href="https://fonts.googleapis.com/css?family=Molle:400i" rel="stylesheet">
+
+  <!-- Link to Moment.js -->
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
   <!-- Link to Firebase -->
   <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
@@ -31,10 +34,11 @@
 
   <!-- NavBar -->
   <header>
-    <nav class="navbar fixed-top gradient">
-      <a style="font-size: 28px; font-weight: bold;" class="navbar-brand ml-5">TravelGroupie</a>
+    <nav class="navbar sticky-top gradient">
+      <a href="index.html" style="font-family: 'Molle', cursive; font-size: 32px; font-weight: bold; color: #ffffff;"
+        class="navbar-brand ml-5">TravelGroupie</a>
       <button class="btn rounded mr-5 bg-transparent" style="border: solid 2px #ffffff; color: #ffffff; font-size: 22px;"
-        type="button" id="login-btn">Menu
+        type="button" id="login-btn">Login
       </button>
     </nav>
   </header>
@@ -42,112 +46,79 @@
   <main id="flexMain">
     <div class="container my-5">
 
-      <!-- Main content row -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header mt-3" id="showsTitle">
-              <!-- Insert search terms text here; ex: if the user searched for drake do .text "Upcoming 'Drake' shows" -->
-              <h3>Concerts</h3>
-            </div>
-
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Location</th>
-                  <th scope="col">Date</th>
-                </tr>
-              </thead>
-              <tbody id="showsTable">
-                <!-- Append the next 10 shows here -->
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-      </div>
     </div>
-    <div id="mainMenu" class="mainMenu hide">
+    </div>
+    </div>
+    </div>
+    </div>
+    <div id="mainMenu" class="mainMenu">
       <div id="mainLogo">
         <img src="assets/images/logo.png" height="75px" width="75px">
       </div>
       <div id="userLogin">
         <div class="form-group">
           <label for="usr">UserName:</label>
-          <input type="text" id="usr" class="form-control usr">
-        </div>
-        <div class="form-group">
-          <label for="pwd">Password:</label>
-          <input type="password" id="pwd" class="form-control pwd">
-        </div>
-        <button class="btn bg-transparent text-light mr-5 mb-1 signin-btn" style="border: solid 2px #ffffff; font-size: 22px;"
-          type="button">Sign In
-        </button>
-        <button class="btn bg-transparent text-light mr-5 createId-btn" id="createId-btn" style="border: solid 2px #ffffff; font-size: 22px;"
-          type="button" id="">Register
-        </button>
-        <p id="firebase-message1" class="firebase-message1"></p>
-      </div>
-      <div id="userFav" class="hide">
-        <h3>Saved Searches</h3>
-        <div class="user-list">
+          <input type="text" id="usr" class="form-control usr"> </div>
+        <div id="userFav" class="hide">
+          <h3>Saved Searches</h3>
+          <div class="user-list">
 
+          </div>
+        </div>
+        <button class="btn bg-transparent text-light mr-5 logout-btn hide" style="border: solid 2px #ffffff; font-size: 22px;"
+          type="button">Log Out
+        </button>
+        <div id="close">
+          <i class="far fa-times-circle"></i>
         </div>
       </div>
-      <button class="btn bg-transparent text-light mr-5 logout-btn hide" style="border: solid 2px #ffffff; font-size: 22px;"
-        type="button">Log Out
-      </button>
-      <div id="close">
-        <i class="far fa-times-circle"></i>
-      </div>
-    </div>
 
-    <div class="container hide" id="infoDiv">
-      <div class="row">
-        <div class="col-12" id="details">
-          <div class="card w-100">
-            <div class="card-body">
-              <img id="detailsImg" class="pr-5" src="https://via.placeholder.com/200x200">
-              <span id="detailsTitle"> Aubrey & The Three Migos Tour</span>
-              <span></span>
-              <hr>
-              <p class="card-text" id="detailsText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At earum
-                exercitationem illum nostrum,
-                quae quos sed totam velit voluptatem voluptatibus? Cum deserunt dolor molestias necessitatibus, neque
-                officiis
-                provident recusandae voluptatem.</p>
-              <a href="#" id="favorite"><i class="far fa-star float-left" style="font-size: 36px; color: #ffd700;"></i></a>
-              <a href="#" class="btn btn-primary float-right" id="buyTickets">Buy Tickets</a>
+      <div class="container hide" id="infoDiv">
+        <div class="row">
+          <div class="col-12" id="details">
+            <div class="card w-100">
+              <div class="card-body">
+                <img id="detailsImg" class="pr-5" src="https://via.placeholder.com/200x200">
+                <span id="detailsTitle"> Aubrey & The Three Migos Tour</span>
+                <span></span>
+                <hr>
+                <p class="card-text" id="detailsText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At
+                  earum
+                  exercitationem illum nostrum,
+                  quae quos sed totam velit voluptatem voluptatibus? Cum deserunt dolor molestias necessitatibus, neque
+                  officiis
+                  provident recusandae voluptatem.</p>
+                <a href="#" id="favorite"><i class="far fa-star float-left" style="font-size: 36px; color: #ffd700;"></i></a>
+                <a href="#" class="btn btn-primary float-right" id="buyTickets">Buy Tickets</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4 mb-5">
+          <div class="col-sm-7">
+            <div class="card">
+              <div class="card-header">
+                Flights
+              </div>
+              <div class="card-body" id="skyscanner">
+                <meta name="originLocation" content="Charlotte" />
+                <div data-skyscanner-widget="SearchWidget" data-origin-name="document.querySelector('meta[name=originLocation]').content"
+                  data-locale="en-GB" data-params="colour:solar;fontColour:#000;buttonColour:dawn;buttonFontColour:#fff;"></div>
+                <script src="https://widgets.skyscanner.net/widget-server/js/loader.js" async></script>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div class="card">
+              <div class="card-header">
+                Restaurants near your event!
+              </div>
+              <div class="card-body" id="zomato">
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row mt-4 mb-5">
-        <div class="col-sm-7">
-          <div class="card">
-            <div class="card-header">
-              Flights
-            </div>
-            <div class="card-body" id="skyscanner">
-              <meta name="originLocation" content="Charlotte" />
-              <div data-skyscanner-widget="SearchWidget" data-origin-name="document.querySelector('meta[name=originLocation]').content"
-                data-locale="en-GB" data-params="colour:solar;fontColour:#000;buttonColour:dawn;buttonFontColour:#fff;"></div>
-              <script src="https://widgets.skyscanner.net/widget-server/js/loader.js" async></script>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-5">
-          <div class="card">
-            <div class="card-header">
-              Restaurants near your event!
-            </div>
-            <div class="card-body" id="zomato">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 
   <footer class="container-fluid text-center mt-3 gradient">
