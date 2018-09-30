@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <nav class="navbar sticky-top">
+    <nav class="navbar sticky-top gradient">
         <a class="navbar-brand ml-5" style="font-size: 28px; font-weight: bold;">TravelGroupie</a>
         <button class="btn bg-transparent text-light mr-5 login-btn" id="login-btn" style="border: solid 2px #ffffff; font-size: 22px;"
             type="button">Login</button>
@@ -72,18 +72,27 @@
             </div>
         </div>
 
-        <div class="container-fluid text-center my-5">
-            <div class="row">
-                <div class="col-sm-4 mt-5">
-                    <img src="assets/images/icons8-search-100.png" id="searchIcon" alt="">
+        <div class="container text-center mx-auto my-5">
+            <div class="row text-center mx-auto">
+                <div class="col-sm-3 mt-5 overlayDiv text-center mx-auto">
+                    <img src="assets/images/icons8-search-100.png" id="searchIcon">
+                    <div class="overlay rounded">
+                        <div class="overlayText mx-auto text-center mt-4">Search for your favorite artists, we'll find upcoming events in the US!</div>
+                    </div>
                     <h4>Search</h4>
                 </div>
-                <div class="col-sm-4 mt-5">
-                    <img src="assets/images/icons8-airport-100.png" id="flightsIcon" alt="">
+                <div class="col-sm-3 mt-5 overlayDiv text-center mx-auto">
+                    <img src="assets/images/icons8-airport-100.png" id="flightsIcon">
+                    <div class="overlay rounded">
+                        <div class="overlayText mx-auto text-center mt-4">Then we'll find a list for possible flights you can take to see the concert!</div>
+                    </div>
                     <h4>Flights</h4>
                 </div>
-                <div class="col-sm-4 mt-5">
-                    <img src="assets/images/icons8-food-100.png" id="restaurantsIcon" alt="">
+                <div class="col-sm-3 mt-5 overlayDiv text-center mx-auto">
+                    <img src="assets/images/icons8-food-100.png" id="restaurantsIcon">
+                    <div class="overlay rounded">
+                        <div class="overlayText mx-auto text-center mt-4">We'll also find high rated restaurants of all types of cuisine in the area!</div>
+                    </div>
                     <h4>Restaurants</h4>
                 </div>
             </div>
@@ -145,7 +154,7 @@
         </div>
     </div>
 
-    <footer class="container-fluid text-center mt-3">
+    <footer class="container-fluid text-center mt-3 gradient">
         <div class="row">
             <div class="col-sm-4 mt-5">
                 <h3>Contact Us</h3>
