@@ -38,7 +38,7 @@
       <a href="index.html" style="font-family: 'Molle', cursive; font-size: 32px; font-weight: bold; color: #ffffff;"
         class="navbar-brand ml-5">TravelGroupie</a>
       <button class="btn rounded mr-5 bg-transparent" style="border: solid 2px #ffffff; color: #ffffff; font-size: 22px;"
-        type="button" id="login-btn">Login
+        type="button" id="login-btn">Menu
       </button>
     </nav>
   </header>
@@ -91,17 +91,20 @@
         <button class="btn bg-transparent text-light mr-5 createId-btn" id="createId-btn" style="border: solid 2px #ffffff; font-size: 22px;"
           type="button" id="">Register
         </button>
-        <button class="btn bg-transparent text-light mr-5 logout-btn hide" style="border: solid 2px #ffffff; font-size: 22px;"
-          type="button">Log Out
-        </button>
 
         <p id="firebase-message1" class="firebase-message1"></p>
 
 
       </div>
-      <div id="userFav">
+      <div id="userFav" class="hide">
+        <p class="welcome-msg"></p>
+        <div class="user-list">
 
+        </div>
       </div>
+      <button class="btn bg-transparent text-light mr-5 logout-btn hide" style="border: solid 2px #ffffff; font-size: 22px;"
+        type="button">Log Out
+      </button>
       <div id="close">
         <i class="far fa-times-circle"></i>
       </div>
