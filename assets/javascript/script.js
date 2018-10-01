@@ -37,28 +37,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     $(".firebase-message1").text("");
     userAuthenticated = true;
     console.log("User logged in");
-
-    var userId = firebase.auth().currentUser.uid;
-
-    firebase
-      .database()
-      .ref("/users/" + userId)
-      .once("value")
-      .then(function(snapshot) {
-        var fav = snapshot.val().favorites;
-
-        $(".user-list").empty();
-        for (i = 1; i < fav.length; i++) {
-          var favLink = $("<a>");
-          var link = "shows.html";
-          favLink.text(fav[i]);
-          favLink.addClass("fav-links");
-          favLink.attr("href", link);
-
-          $(".user-list").append(favLink);
-          $(".user-list").append("<br> <br>");
-        }
-      });
+    pullUserData();
     // ...
   } else {
     // No user is signed in.
@@ -72,7 +51,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 var database = firebase.database();
-
+//push user data on registration to database
 function writeUserData() {
   var userEmail = $(".usr").val();
   var userData = [0];
@@ -86,11 +65,36 @@ function writeUserData() {
     });
 }
 
+function pullUserData() {
+  var userId = firebase.auth().currentUser.uid;
+
+  firebase
+    .database()
+    .ref("/users/" + userId)
+    .once("value")
+    .then(function(snapshot) {
+      var fav = snapshot.val().favorites;
+      console.log(fav);
+      $(".user-list").empty();
+      for (i = 1; i < fav.length; i++) {
+        console.log("hey");
+        var favLink = $("<a>");
+        var link = fav[i].url;
+        favLink.text(fav[i][0]);
+        favLink.addClass("fav-links");
+        favLink.attr("href", link);
+
+        $(".user-list").append(favLink);
+        $(".user-list").append("<br> <br>");
+      }
+    });
+}
+
 function displayShows() {
   var urlParams = new URLSearchParams(window.location.search);
   var q = urlParams.get("q");
 
-  //change var artist = to: $("searchbar").val()
+  //change var artist to user input
   var showAPI_URL =
     "https://app.ticketmaster.com/discovery/v2/events.json?keyword=" +
     q +
@@ -100,7 +104,7 @@ function displayShows() {
     method: "GET"
   }).then(function(response) {
     var events = response._embedded.events;
-    console.log(events);
+
     for (var s = 0; s < events.length; s++) {
       var show = events[s].name;
       var location = events[s]._embedded.venues[0].city.name;
@@ -143,7 +147,6 @@ function displayFood(city) {
     "https://developers.zomato.com/api/v2.1/search?q=" +
     location +
     "&count=4&sort=rating";
-  console.log(foodAPI_URL);
 
   $.ajax({
     headers: { "user-key": "25393e0be571d9d77efecdb57524950b" },
@@ -176,6 +179,7 @@ function displayFood(city) {
 function pushFavorite() {
   //get user fav array
   var userId = firebase.auth().currentUser.uid;
+
   firebase
     .database()
     .ref("/users/" + userId)
@@ -184,30 +188,43 @@ function pushFavorite() {
       //read fav array
       var favorites = snapshot.val().favorites;
       var newFav = $("#detailsTitle").text();
-      favorites.push(newFav);
+      var url = window.location.href;
+      // favorites.push(newFav);
 
       var userID = firebase.auth().currentUser.uid;
+      // firebase
+      //   .database()
+      //   .ref("users/" + userID)
+      //   .child("favorites")
+      //   .set(favorites);
       firebase
         .database()
-        .ref("users/" + userID)
-        .child("favorites")
-        .set(favorites);
+        .ref("users/" + userID + "/favorites/" + newFav)
+        .child("url")
+        .set(url);
+    });
+  database
+    .ref("users/" + userId + "/favorites")
+    .on("child_added", function(snap) {
+      pullUserData();
     });
 }
 
-//show and hide user menu
+//on click handler for menu slide out
 $("#login-btn").on("click", function() {
   $("#mainMenu").animate({
-    width: '300px'
-  })
+    width: "300px"
+  });
   $("#login-btn").toggleClass("hide");
 });
+//on click handler for closing menu
 $("#close").on("click", function() {
   $("#mainMenu").animate({
-    width: '0px'
-  })
+    width: "0px"
+  });
   $("#login-btn").toggleClass("hide");
 });
+//on click handler for search bar on navigation page
 $("#search-button").on("click", function(event) {
   event.preventDefault();
   displayShows();
@@ -226,7 +243,7 @@ $(".signin-btn").on("click", function login() {
       $(".firebase-message1").text(errorMessage);
     });
 });
-
+//on click handler for user registration
 $(".createId-btn").on("click", function login() {
   var userEmail = $(".usr").val();
   var userPw = $(".pwd").val();
@@ -241,21 +258,17 @@ $(".createId-btn").on("click", function login() {
     })
     .then(writeUserData);
 });
-//log out button
+// on click handler for log out button
 $(".logout-btn").on("click", function loginout() {
   firebase.auth().signOut();
-  // $(".logout-btn").toggleClass("hide");
-  // $(".signin-btn").toggleClass("hide");
-  // $(".createId-btn").toggleClass("hide");
-  // $(".firebase-message1").text("");
 });
+//on click handler for showing large show info
 $(document).on("click", ".show-link", function() {
   var eventImage = $(this).attr("data-photo");
   var eventInfo = $(this).attr("data-info");
   var eventTitle = $(this).text();
   var eventTickets = $(this).attr("data-url");
   var foodLocation = $(this).attr("data-location");
-  console.log(foodLocation);
 
   displayFood(foodLocation);
 
@@ -265,15 +278,12 @@ $(document).on("click", ".show-link", function() {
   $("#buyTickets").attr("href", eventTickets);
   $("#infoDiv").removeClass("hide");
 });
+//on click handler for adding user favorite
 $(document).on("click", ".fa-star", function(event) {
   event.preventDefault;
   pushFavorite();
 });
-$(document).on("click", ".fav-links", function(event) {
-  favSearch = $(this).text();
-  $("#searchInput").val(favSearch);
-  $("#search-button").trigger("click");
-});
+//on click handler for searching with user favorite
+// $(document).on("click", ".fav-links", displayFavShows);
 
 displayShows();
-
