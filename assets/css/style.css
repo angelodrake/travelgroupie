@@ -90,6 +90,7 @@ body {
 .zomatoImg {
   max-width: 112px;
   max-height: 63px;
+  min-width: 112px;
   overflow: auto;
 }
 
@@ -143,7 +144,7 @@ body {
 
 .user-list {
   position: absolute;
-  top: 200px;
+  top: 280px;
   left: 10%;
   color: #ffffff;
 }
@@ -153,4 +154,21 @@ body {
   bottom: 125px;
   left: 35%;
   color: #ffffff;
+}
+
+.detailsImg {
+  max-height: 240px;
+  max-width: 350px;
+}
+
+.eventTitle {
+  font-size: 38px;
+}
+
+.fav-list {
+  color: #ffffff;
+}
+
+#favorite:hover {
+  cursor: pointer;
 }

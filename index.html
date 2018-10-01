@@ -23,9 +23,6 @@
     <!-- Link to Moment.js -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
-    <!-- Slide Plug-in -->
-    <!-- <script src="jquery.slidereveal.min.js"></script> -->
-
     <!-- Link to Firebase -->
     <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 </head>
@@ -75,11 +72,11 @@
 
                 </div>
                 <div class="col-sm-8">
-                    <form id="searchForm" action="./shows.html" method="GET">
+                    <form id="searchForm" minlength="" action="./shows.html" method="GET">
                         <div class="form-group">
                             <h1 class="text-center">Find an event!</h1>
                             <div class="input-group input-group-lg center-block">
-                                <input type="text" name="q" id="searchInput" class="form-control" placeholder="Ex. Migos">
+                                <input type="text" name="q" id="searchInput" class="form-control" placeholder="Ex. Migos" required>
                                 <button class="btn btn-outline-success ml-1" id="search-btn"><a href="shows.html"></a><i
                                         class="fas fa-search"></i></button>
                             </div>
@@ -135,6 +132,9 @@
                         dignissimos exercitationem quam nihil adipisci delectus veritatis odit voluptas nesciunt. Totam
                         nobis
                         eaque eveniet nulla?</p>
+                    <div class="text-center mx-auto mt-5 pt-5">
+                        <img src="assets/images/AsSeenInForbes_0.png">
+                    </div>
                 </div>
                 <div class="col-md-6 my-5">
                     <img src="assets/images/perform.jpg" class="img-fluid" alt="">
@@ -149,7 +149,7 @@
         </div>
         <div id="userLogin">
             <div class="form-group">
-                <label for="usr">UserName:</label>
+                <label for="usr">Email:</label>
                 <input type="text" id="usr" class="form-control usr">
             </div>
             <div class="form-group">
@@ -164,7 +164,7 @@
         </div>
         <div id="userFav" class="hide">
             <p class="welcome-msg"></p>
-            <div class="user-list">
+            <div class="user-list text-center mx-auto">
 
             </div>
         </div>

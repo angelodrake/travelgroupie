@@ -81,6 +81,7 @@ function pullUserData() {
         favLink.text(favKeys[i]);
         favLink.addClass("fav-links");
         favLink.attr("href", link);
+        favLink.addClass("fav-list")
 
         $(".user-list").append(favLink);
         $(".user-list").append("<br> <br>");
@@ -165,7 +166,7 @@ function displayFood(foodCity) {
       var newImg = $(
         "<a href='" +
           restURL +
-          "'><img class='zomatoImg' src='" +
+          "'target='_blank'><img class='zomatoImg' src='" +
           image +
           "'></a>"
       );
@@ -213,14 +214,14 @@ function pushFavorite() {
 $("#login-btn").on("click", function() {
   $("#mainMenu").animate({
     width: "300px"
-  });
+  }, 1);
   $("#login-btn").toggleClass("hide");
 });
 //on click handler for closing menu
 $("#close").on("click", function() {
   $("#mainMenu").animate({
     width: "0px"
-  });
+  }, 1);
   $("#login-btn").toggleClass("hide");
 });
 //on click handler for search bar on navigation page
@@ -272,9 +273,14 @@ $(document).on("click", ".show-link", function() {
   displayFood(foodLocation);
 
   $("#detailsImg").attr("src", eventImage);
+  $("#detailsImg").addClass("detailsImg");
   $("#detailsText").text(eventInfo);
   $("#detailsTitle").text(eventTitle);
+  $("#detailsTitle").addClass("eventTitle")
+  $("#detailsTitle").addClass("text-center")
+  $("#detailsTitle").addClass("mx-auto")
   $("#buyTickets").attr("href", eventTickets);
+  $("#buyTickets").attr("target", "_blank");
   $("#infoDiv").removeClass("hide");
 });
 //on click handler for adding user favorite
