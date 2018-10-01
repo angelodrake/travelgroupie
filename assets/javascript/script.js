@@ -12,7 +12,7 @@ firebase.initializeApp(config);
 firebase
   .auth()
   .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-  .then(function() {
+  .then(function () {
     // Existing and future Auth states are now persisted in the current
     // session only. Closing the window would clear any existing state even
     // if a user forgets to sign out.
@@ -20,14 +20,14 @@ firebase
     // New sign-in will be persisted with session persistence.
     return firebase.auth().signInWithEmailAndPassword(email, password);
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
   });
 
 // authorization layout
-firebase.auth().onAuthStateChanged(function(user) {
+firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
     //write user data and toggle buttons if login succesful
@@ -75,12 +75,12 @@ function displayShows() {
   $.ajax({
     url: showAPI_URL,
     method: "GET"
-  }).then(function(response) {
+  }).then(function (response) {
     var events = response._embedded.events;
     console.log(events);
     for (var s = 0; s < events.length; s++) {
       var show = events[s].name;
-      var location = events[s]._embedded.venues[0].city.name;
+      var city = events[s]._embedded.venues[0].city.name;
       var date = events[s].dates.start.localDate;
       var photo = events[s].images[2].url;
       var showInfo = events[s].ticketLimit.info;
@@ -91,20 +91,20 @@ function displayShows() {
       var showCol = $("<td>");
       var showURL = showCol.append(
         "<a href='#' data-location='" +
-          location +
-          "'data-url='" +
-          ticketMaster +
-          "' data-date='" +
-          convertedDate +
-          "' data-info='" +
-          showInfo +
-          "' data-photo='" +
-          photo +
-          "' class='show-link'>" +
-          show +
-          " </a>"
+        city +
+        "'data-url='" +
+        ticketMaster +
+        "' data-date='" +
+        convertedDate +
+        "' data-info='" +
+        showInfo +
+        "' data-photo='" +
+        photo +
+        "' class='show-link'>" +
+        show +
+        " </a>"
       );
-      var locCol = $("<td>").text(location);
+      var locCol = $("<td>").text(city);
       var dateCol = $("<td>").text(convertedDate);
 
       newDiv.append(showURL, locCol, dateCol);
@@ -113,35 +113,41 @@ function displayShows() {
   });
 }
 
-function displayFood(city) {
-  //delete var on location (global)
-  var location = "charlotte";
-  var foodAPI_URL =
-    "https://developers.zomato.com/api/v2.1/search?q=" +
-    location +
-    "&count=4&sort=rating";
-  console.log(foodAPI_URL);
+function displayFood(foodCity) {
+  var city = foodCity;
+  console.log(city);
+  var foodAPI_URL = "https://api.yelp.com/v3/businesses/search?term=restaurants&location=" + city + "&limit=4&sort_by=rating"
 
   $.ajax({
-    headers: { "user-key": "25393e0be571d9d77efecdb57524950b" },
-    url: foodAPI_URL,
-    method: "GET"
-  }).then(function(input) {
-    food = input.restaurants;
+      url: foodAPI_URL,
+      headers: {
+          "Authorization": "Bearer 9Uoa7m7p53lgbvdRhWkFgUCG7tcSXICraPn3QeEz9YCD1kI6wVIdvAL7fqL-NPK-QchDvqoi4cGm0zQIU9Yg_2BWysXZsX97kK8jF1yLZBElOPnVXItMSX2DCyGyW3Yx"
+      },
+      method: "GET"
 
-    for (var f = 0; f < food.length; f++) {
-      var name = food[f].restaurant.name;
-      var type = food[f].restaurant.cuisines;
-      var image = food[f].restaurant.featured_image;
-      var restURL = food[f].restaurant.url;
+  }).then(function (input) {
+      console.log(input);
+
+      var food = input.businesses
+
+      for (var f = 0; f < food.length; f++) {
+          console.log(food[f]);
+          var name = food[f].name;
+          console.log(name);
+          var type = food[f].categories[0].title
+          console.log(type);
+          var image = food[f].image_url;
+          console.log(image);
+          var restURL = food[f].url;
+          console.log(restURL);
 
       var newDiv = $("<div>");
       var newImg = $(
         "<a href='" +
-          restURL +
-          "'><img class='zomatoImg' src='" +
-          image +
-          "'></a>"
+        restURL +
+        "'><img class='zomatoImg' src='" +
+        image +
+        "'></a>"
       );
       newDiv.append(newImg, " | ", name, "<br>", type, "<hr>");
       $("#zomato").append(newDiv);
@@ -150,15 +156,15 @@ function displayFood(city) {
 }
 
 //show and hide user menu
-$("#login-btn").on("click", function() {
+$("#login-btn").on("click", function () {
   $("#mainMenu").toggleClass("hide");
   $("#login-btn").toggleClass("hide");
 });
-$("#close").on("click", function() {
+$("#close").on("click", function () {
   $("#mainMenu").toggleClass("hide");
   $("#login-btn").toggleClass("hide");
 });
-$("#search-button").on("click", function(event) {
+$("#search-button").on("click", function (event) {
   event.preventDefault();
   displayShows();
 });
@@ -170,7 +176,7 @@ $(".signin-btn").on("click", function login() {
   firebase
     .auth()
     .signInWithEmailAndPassword(userEmail, userPw)
-    .catch(function(error) {
+    .catch(function (error) {
       // Handle Errors here.
       var errorMessage = error.message;
       $(".firebase-message1").text(errorMessage);
@@ -184,7 +190,7 @@ $(".createId-btn").on("click", function login() {
   firebase
     .auth()
     .createUserWithEmailAndPassword(userEmail, userPw)
-    .catch(function(error) {
+    .catch(function (error) {
       // Handle Errors here.
       var errorMessage = error.message;
       $(".firebase-message1").text(errorMessage);
@@ -199,7 +205,7 @@ $(".logout-btn").on("click", function loginout() {
   $(".createId-btn").toggleClass("hide");
   $(".firebase-message1").text("");
 });
-$(document).on("click", ".show-link", function() {
+$(document).on("click", ".show-link", function () {
   var eventImage = $(this).attr("data-photo");
   var eventInfo = $(this).attr("data-info");
   var eventTitle = $(this).text();
