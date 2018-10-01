@@ -165,7 +165,7 @@ function displayFood(foodCity) {
       var newImg = $(
         "<a href='" +
           restURL +
-          "'><img class='zomatoImg' src='" +
+          "'target='_blank'><img class='zomatoImg' src='" +
           image +
           "'></a>"
       );

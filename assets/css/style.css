@@ -90,6 +90,7 @@ body {
 .zomatoImg {
   max-width: 112px;
   max-height: 63px;
+  min-width: 112px;
   overflow: auto;
 }
 
