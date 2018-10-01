@@ -144,7 +144,7 @@ body {
 
 .user-list {
   position: absolute;
-  top: 200px;
+  top: 280px;
   left: 10%;
   color: #ffffff;
 }
@@ -157,10 +157,18 @@ body {
 }
 
 .detailsImg {
-  max-height: 280px;
-  max-width: 400px;
+  max-height: 240px;
+  max-width: 350px;
 }
 
 .eventTitle {
   font-size: 38px;
+}
+
+.fav-list {
+  color: #ffffff;
+}
+
+#favorite:hover {
+  cursor: pointer;
 }
