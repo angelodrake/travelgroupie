@@ -35,18 +35,16 @@ firebase.auth().onAuthStateChanged(function(user) {
     $("#userLogin").addClass("hide");
     $("#userFav").removeClass("hide");
     $(".firebase-message1").text("");
-    userAuthenticated = true;
     console.log("User logged in");
     pullUserData();
     // ...
   } else {
     // No user is signed in.
-    console.log("User logged out");
     $(".logout-btn").addClass("hide");
     $("#userLogin").removeClass("hide");
     $("#userFav").addClass("hide");
     $(".firebase-message1").text("");
-    userAuthenticated = false;
+    console.log("User logged out");
   }
 });
 
@@ -74,13 +72,13 @@ function pullUserData() {
     .once("value")
     .then(function(snapshot) {
       var fav = snapshot.val().favorites;
-      console.log(fav);
+      var favKeys = Object.keys(fav);
+
       $(".user-list").empty();
-      for (i = 1; i < fav.length; i++) {
-        console.log("hey");
+      for (i = 1; i < favKeys.length; i++) {
         var favLink = $("<a>");
-        var link = fav[i].url;
-        favLink.text(fav[i][0]);
+        var link = fav[favKeys[i]].url;
+        favLink.text(favKeys[i]);
         favLink.addClass("fav-links");
         favLink.attr("href", link);
 
@@ -142,7 +140,6 @@ function displayShows() {
 
 function displayFood(foodCity) {
   var city = foodCity;
-  console.log(city);
   var foodAPI_URL =
     "https://api.yelp.com/v3/businesses/search?term=restaurants&location=" +
     city +
@@ -156,20 +153,13 @@ function displayFood(foodCity) {
     },
     method: "GET"
   }).then(function(input) {
-    console.log(input);
-
     var food = input.businesses;
-
+    $("#zomato").empty();
     for (var f = 0; f < food.length; f++) {
-      console.log(food[f]);
       var name = food[f].name;
-      console.log(name);
       var type = food[f].categories[0].title;
-      console.log(type);
       var image = food[f].image_url;
-      console.log(image);
       var restURL = food[f].url;
-      console.log(restURL);
 
       var newDiv = $("<div>");
       var newImg = $(
@@ -180,7 +170,6 @@ function displayFood(foodCity) {
           "'></a>"
       );
       newDiv.append(newImg, " | ", name, "<br>", type, "<hr>");
-
       $("#zomato").append(newDiv);
     }
   });
