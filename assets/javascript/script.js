@@ -107,7 +107,7 @@ function displayShows() {
 
     for (var s = 0; s < events.length; s++) {
       var show = events[s].name;
-      var location = events[s]._embedded.venues[0].city.name;
+      var city = events[s]._embedded.venues[0].city.name;
       var date = events[s].dates.start.localDate;
       var photo = events[s].images[2].url;
       var showInfo = events[s].ticketLimit.info;
@@ -118,7 +118,7 @@ function displayShows() {
       var showCol = $("<td>");
       var showURL = showCol.append(
         "<a href='#' data-location='" +
-          location +
+          city +
           "'data-url='" +
           ticketMaster +
           "' data-date='" +
@@ -131,7 +131,7 @@ function displayShows() {
           show +
           " </a>"
       );
-      var locCol = $("<td>").text(location);
+      var locCol = $("<td>").text(city);
       var dateCol = $("<td>").text(convertedDate);
 
       newDiv.append(showURL, locCol, dateCol);
@@ -140,26 +140,36 @@ function displayShows() {
   });
 }
 
-function displayFood(city) {
-  //delete var on location (global)
-  var location = "charlotte";
+function displayFood(foodCity) {
+  var city = foodCity;
+  console.log(city);
   var foodAPI_URL =
-    "https://developers.zomato.com/api/v2.1/search?q=" +
-    location +
-    "&count=4&sort=rating";
+    "https://api.yelp.com/v3/businesses/search?term=restaurants&location=" +
+    city +
+    "&limit=4&sort_by=rating";
 
   $.ajax({
-    headers: { "user-key": "25393e0be571d9d77efecdb57524950b" },
     url: foodAPI_URL,
+    headers: {
+      Authorization:
+        "Bearer 9Uoa7m7p53lgbvdRhWkFgUCG7tcSXICraPn3QeEz9YCD1kI6wVIdvAL7fqL-NPK-QchDvqoi4cGm0zQIU9Yg_2BWysXZsX97kK8jF1yLZBElOPnVXItMSX2DCyGyW3Yx"
+    },
     method: "GET"
   }).then(function(input) {
-    food = input.restaurants;
-    $("#zomato").empty();
+    console.log(input);
+
+    var food = input.businesses;
+
     for (var f = 0; f < food.length; f++) {
-      var name = food[f].restaurant.name;
-      var type = food[f].restaurant.cuisines;
-      var image = food[f].restaurant.featured_image;
-      var restURL = food[f].restaurant.url;
+      console.log(food[f]);
+      var name = food[f].name;
+      console.log(name);
+      var type = food[f].categories[0].title;
+      console.log(type);
+      var image = food[f].image_url;
+      console.log(image);
+      var restURL = food[f].url;
+      console.log(restURL);
 
       var newDiv = $("<div>");
       var newImg = $(
