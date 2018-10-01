@@ -260,8 +260,12 @@ $(document).on("click", ".show-link", function() {
   displayFood(foodLocation);
 
   $("#detailsImg").attr("src", eventImage);
+  $("#detailsImg").addClass("detailsImg");
   $("#detailsText").text(eventInfo);
   $("#detailsTitle").text(eventTitle);
+  $("#detailsTitle").addClass("eventTitle")
+  $("#detailsTitle").addClass("text-center")
+  $("#detailsTitle").addClass("mx-auto")
   $("#buyTickets").attr("href", eventTickets);
   $("#infoDiv").removeClass("hide");
 });
