@@ -95,7 +95,7 @@ function displayShows() {
 
   //change var artist to user input
   var showAPI_URL =
-    "https://app.ticketmaster.com/discovery/v2/events.json?keyword=" +
+    "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,desc&keyword=" +
     q +
     "&apikey=noHazJHm5x0GrV21AbEv7JKS4WVzGswJ";
   $.ajax({
@@ -289,6 +289,21 @@ $(document).on("click", ".show-link", function() {
   $("#buyTickets").attr("target", "_blank");
   $("#infoDiv").removeClass("hide");
 });
+
+$("#darkButton").on("click", function(){
+  let text = $(this).attr("data-text")
+  $("body").toggleClass("darkTheme");
+  $("#darkButton").toggleClass("lightTheme");
+  if (text === "dark") {
+    $("#darkButton").text("Light Theme")
+    $("#darkButton").attr("data-text", "light")
+  }
+  if (text === "light") {
+    $("#darkButton").text("Dark Theme")
+    $("#darkButton").attr("data-text", "dark")
+  }
+});
+
 //on click handler for adding user favorite
 $(document).on("click", ".fa-star", function(event) {
   event.preventDefault;
