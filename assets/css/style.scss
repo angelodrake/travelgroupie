@@ -57,8 +57,8 @@ body {
 }
 #close {
   position: absolute;
-  bottom: 50px;
   left: 50%;
+  bottom: 50px;
   height: 30px;
   width: 50px;
   color: $white;
@@ -177,4 +177,19 @@ body {
 
 #favorite:hover {
   @extend %cursor;
+}
+#darkButtonDiv {
+  position: absolute;
+  left: 33%;
+  bottom: 15px;
+}
+
+.darkTheme {
+  background: #262626;
+  color: #ffffff;
+}
+
+.lightTheme {
+  background: #ffffff;
+  color: #000000;
 }
