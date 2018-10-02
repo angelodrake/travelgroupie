@@ -1,4 +1,3 @@
-var userAuthenticated = false;
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCi5XqbAdfXV9xrLdO_vyb5cu1WbzD7ezE",
@@ -9,41 +8,232 @@ var config = {
   messagingSenderId: "233607634113"
 };
 firebase.initializeApp(config);
+firebase
+  .auth()
+  .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+  .then(function() {
+    // Existing and future Auth states are now persisted in the current
+    // session only. Closing the window would clear any existing state even
+    // if a user forgets to sign out.
+    // ...
+    // New sign-in will be persisted with session persistence.
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+  })
+  .catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+  });
 
 // authorization layout
-// firebase.auth().onAuthStateChanged(function (user) {
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    //write user data and toggle buttons if login succesful
+    $(".logout-btn").removeClass("hide");
+    $("#userLogin").addClass("hide");
+    $("#userFav").removeClass("hide");
+    $(".firebase-message1").text("");
+    console.log("User logged in");
+    pullUserData();
+    // ...
+  } else {
+    // No user is signed in.
+    $(".logout-btn").addClass("hide");
+    $("#userLogin").removeClass("hide");
+    $("#userFav").addClass("hide");
+    $(".firebase-message1").text("");
+    console.log("User logged out");
+  }
+});
 
-//     if (user) {
-//         // User is signed in.
-//         $('#login-btn').css("display", "none")
-//         $('#register-btn').css("display", "none") //buttons gone
+var database = firebase.database();
+//push user data on registration to database
+function writeUserData() {
+  var userEmail = $(".usr").val();
+  var userData = [0];
+  var userID = firebase.auth().currentUser.uid;
+  firebase
+    .database()
+    .ref("users/" + userID)
+    .set({
+      username: userEmail,
+      favorites: userData
+    });
+}
 
-//         $('.user_div').css("display", "block"); //only welcome
-//         $('.login_div').css("display", "none")
-//         $('.register_div').css("display", "none")
+function pullUserData() {
+  var userId = firebase.auth().currentUser.uid;
 
-//         var userId = firebase.auth().currentUser.uid;
+  firebase
+    .database()
+    .ref("/users/" + userId)
+    .once("value")
+    .then(function(snapshot) {
+      var fav = snapshot.val().favorites;
+      var favKeys = Object.keys(fav);
 
-//         if (user != null) {
+      $(".user-list").empty();
+      for (i = 1; i < favKeys.length; i++) {
+        var favLink = $("<a>");
+        var link = fav[favKeys[i]].url;
+        favLink.text(favKeys[i]);
+        favLink.addClass("fav-links");
+        favLink.attr("href", link);
+        favLink.addClass("fav-list");
 
-//         //     /////////////////////////////////////
-//         //     var userEmail = $('usr').val()
-//         //   //////////////////////////////////////////
-//             $('#welcome-message').text('welcome back user :' + user.email);
+        $(".user-list").append(favLink);
+        $(".user-list").append("<br> <br>");
+      }
+    });
+}
 
-//         }
+function displayShows() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var q = urlParams.get("q");
 
-//     } else {
-//         // No user is signed in.
-//         $('#login-btn').css("display", "block")
-//         $('#register-btn').css("display", "block") // only 2 buttons
+  //change var artist to user input
+  var showAPI_URL =
+    "https://app.ticketmaster.com/discovery/v2/events.json?sort=date,desc&keyword=" +
+    q +
+    "&apikey=noHazJHm5x0GrV21AbEv7JKS4WVzGswJ";
+  $.ajax({
+    url: showAPI_URL,
+    method: "GET"
+  }).then(function(response) {
+    var events = response._embedded.events;
 
-//         $('.user_div').css("display", "none");
-//         $('.login_div').css("display", "none")
-//         $('.register_div').css("display", "none")
-//     }
-// });
+    for (var s = 0; s < events.length; s++) {
+      var show = events[s].name;
+      var city = events[s]._embedded.venues[0].city.name;
+      var date = events[s].dates.start.localDate;
+      var photo = events[s].images[2].url;
+      var showInfo = events[s].ticketLimit.info;
+      var ticketMaster = events[s].url;
+      var convertedDate = moment(date, "YYYY/MM/DD").format("MM/DD/YYYY");
 
+      var newDiv = $("<tr class='mb-3'>");
+      var showCol = $("<td>");
+      var showURL = showCol.append(
+        "<a href='#' data-location='" +
+          city +
+          "'data-url='" +
+          ticketMaster +
+          "' data-date='" +
+          convertedDate +
+          "' data-info='" +
+          showInfo +
+          "' data-photo='" +
+          photo +
+          "' class='show-link'>" +
+          show +
+          " </a>"
+      );
+      var locCol = $("<td>").text(city);
+      var dateCol = $("<td>").text(convertedDate);
+
+      newDiv.append(showURL, locCol, dateCol);
+      $("#showsTable").append(newDiv);
+    }
+  });
+}
+
+function displayFood(foodCity) {
+  var city = foodCity;
+  var foodAPI_URL =
+    "https://api.yelp.com/v3/businesses/search?term=restaurants&location=" +
+    city +
+    "&limit=4&sort_by=rating";
+
+  $.ajax({
+    url: foodAPI_URL,
+    headers: {
+      Authorization:
+        "Bearer 9Uoa7m7p53lgbvdRhWkFgUCG7tcSXICraPn3QeEz9YCD1kI6wVIdvAL7fqL-NPK-QchDvqoi4cGm0zQIU9Yg_2BWysXZsX97kK8jF1yLZBElOPnVXItMSX2DCyGyW3Yx"
+    },
+    method: "GET"
+  }).then(function(input) {
+    var food = input.businesses;
+    $("#zomato").empty();
+    for (var f = 0; f < food.length; f++) {
+      var name = food[f].name;
+      var type = food[f].categories[0].title;
+      var image = food[f].image_url;
+      var restURL = food[f].url;
+
+      var newDiv = $("<div>");
+      var newImg = $(
+        "<a href='" +
+          restURL +
+          "'target='_blank'><img class='zomatoImg' src='" +
+          image +
+          "'></a>"
+      );
+      newDiv.append(newImg, " | ", name, "<br>", type, "<hr>");
+      $("#zomato").append(newDiv);
+    }
+  });
+}
+
+function pushFavorite() {
+  //get user fav array
+  var userId = firebase.auth().currentUser.uid;
+
+  firebase
+    .database()
+    .ref("/users/" + userId)
+    .once("value")
+    .then(function(snapshot) {
+      //read fav array
+      var favorites = snapshot.val().favorites;
+      var newFav = $("#detailsTitle").text();
+      var url = window.location.href;
+      // favorites.push(newFav);
+
+      var userID = firebase.auth().currentUser.uid;
+      // firebase
+      //   .database()
+      //   .ref("users/" + userID)
+      //   .child("favorites")
+      //   .set(favorites);
+      firebase
+        .database()
+        .ref("users/" + userID + "/favorites/" + newFav)
+        .child("url")
+        .set(url);
+    });
+  database
+    .ref("users/" + userId + "/favorites")
+    .on("child_added", function(snap) {
+      pullUserData();
+    });
+}
+
+//on click handler for menu slide out
+$("#login-btn").on("click", function() {
+  $("#mainMenu").animate(
+    {
+      width: "300px"
+    },
+    1
+  );
+  $("#login-btn").toggleClass("hide");
+});
+//on click handler for closing menu
+$("#close").on("click", function() {
+  $("#mainMenu").animate(
+    {
+      width: "0px"
+    },
+    1
+  );
+  $("#login-btn").toggleClass("hide");
+});
+//on click handler for search bar on navigation page
+$("#search-button").on("click", function(event) {
+  event.preventDefault();
+  displayShows();
+});
 //log-in button
 $(".signin-btn").on("click", function login() {
   var userEmail = $(".usr").val();
@@ -52,193 +242,89 @@ $(".signin-btn").on("click", function login() {
   firebase
     .auth()
     .signInWithEmailAndPassword(userEmail, userPw)
-
     .catch(function(error) {
       // Handle Errors here.
-      var errorCode = error.code;
       var errorMessage = error.message;
       $(".firebase-message1").text(errorMessage);
     });
-  $(".logout-btn").toggleClass("hide");
-  $(".signin-btn").toggleClass("hide");
-  $(".createId-btn").toggleClass("hide");
 });
-
-//log out button
-$(".logout-btn").on("click", function loginout() {
-  firebase.auth().signOut();
-  $(".logout-btn").toggleClass("hide");
-  $(".signin-btn").toggleClass("hide");
-  $(".createId-btn").toggleClass("hide");
-});
-
-var database = firebase.database();
-
-//create account button
-$("#createId-btn").on("click", function createAcc() {
-  var userEmail = $("#usr").val();
-  var userPw = $("#pwd").val();
+//on click handler for user registration
+$(".createId-btn").on("click", function login() {
+  var userEmail = $(".usr").val();
+  var userPw = $(".pwd").val();
 
   firebase
     .auth()
     .createUserWithEmailAndPassword(userEmail, userPw)
     .catch(function(error) {
       // Handle Errors here.
-      var errorCode = error.code;
       var errorMessage = error.message;
-      // ...
-      console.log(userEmail);
-      console.log(userPw);
-      console.log(error.code);
-      console.log(error.message);
-      $(".firebase-message1").text(error.message);
-    });
-  $(".logout-btn").toggleClass("hide");
-  $(".signin-btn").toggleClass("hide");
-  $(".createId-btn").toggleClass("hide");
-  writeUserData();
+      $(".firebase-message1").text(errorMessage);
+    })
+    .then(writeUserData);
+});
+// on click handler for log out button
+$(".logout-btn").on("click", function loginout() {
+  firebase.auth().signOut();
+});
+//on click handler for showing large show info
+$(document).on("click", ".show-link", function() {
+  var eventImage = $(this).attr("data-photo");
+  var eventInfo = $(this).attr("data-info");
+  var eventTitle = $(this).text();
+  var eventTickets = $(this).attr("data-url");
+  var foodLocation = $(this).attr("data-location");
+
+  displayFood(foodLocation);
+
+  $("#detailsImg").attr("src", eventImage);
+  $("#detailsImg").addClass("detailsImg");
+  $("#detailsText").text(eventInfo);
+  $("#detailsTitle").text(eventTitle);
+  $("#detailsTitle").addClass("eventTitle");
+  $("#detailsTitle").addClass("text-center");
+  $("#detailsTitle").addClass("mx-auto");
+  $("#buyTickets").attr("href", eventTickets);
+  $("#buyTickets").attr("target", "_blank");
+  $("#infoDiv").removeClass("hide");
 });
 
-// pushing some user info to firebase
-function writeUserData(userEmail, uid) {
-  var uid = firebase
-    .database()
-    .ref()
-    .child("users")
-    .push().key;
-  var userEmail = $(".usr").val();
-
-  var data = {
-    user_id: uid,
-    userEmail: userEmail
-  };
-
-  var updates = {};
-  updates["/users/" + uid] = data;
-  firebase
-    .database()
-    .ref()
-    .update(updates);
+$("#darkButton").on("click", function() {
+  let text = $(this).attr("data-text");
+  $("body").toggleClass("darkTheme");
+  $("#darkButton").toggleClass("lightTheme");
+  if (text === "dark") {
+    $("#darkButton").text("Light Theme");
+    $("#darkButton").attr("data-text", "light");
+    $(".card-body").toggleClass("darkTheme");
+    $(".card-header").toggleClass("darkTheme");
+    $("table").toggleClass("darkTheme");
+    sessionStorage.setItem("darkTheme", "true");
+  }
+  if (text === "light") {
+    $("#darkButton").text("Dark Theme");
+    $("#darkButton").attr("data-text", "dark");
+    $(".card-body").toggleClass("darkTheme");
+    $(".card-header").toggleClass("darkTheme");
+    $("table").toggleClass("darkTheme");
+    sessionStorage.setItem("darkTheme", "false");
+  }
+});
+//darktheme check
+if (sessionStorage.getItem("darkTheme") === "true") {
+  $("body").toggleClass("darkTheme");
+  $(".card-body").toggleClass("darkTheme");
+  $(".card-header").toggleClass("darkTheme");
+  $("table").toggleClass("darkTheme");
+  $("#darkButton").toggleClass("lightTheme");
 }
 
-// // push search history
-// $("#search-btn").on("click", function() {
-//   pushArtist();
-// });
-
-// function pushArtist(artist) {
-//   var artist = $("#searchInput")
-//     .val()
-//     .trim();
-
-//   // var uid = firebase.database().ref().child('users').push().key;
-//   // var userEmail = $('#email-field2').val();
-
-//   var data = {
-//     //  user_id: uid,
-//     //  userEmail: userEmail
-//     artist: artist
-//   };
-
-//   var updates = {};
-//   updates["/users/" + uid] = data;
-//   firebase
-//     .database()
-//     .ref()
-//     .update(updates);
-// }
-
-//show and hide user menu
-$("#login-btn").on("click", function() {
-  $("#mainMenu").toggleClass("hide");
-  $("#login-btn").toggleClass("hide");
+//on click handler for adding user favorite
+$(document).on("click", ".fa-star", function(event) {
+  event.preventDefault;
+  pushFavorite();
 });
-$("#close").on("click", function() {
-  $("#mainMenu").toggleClass("hide");
-  $("#login-btn").toggleClass("hide");
-});
+//on click handler for searching with user favorite
+// $(document).on("click", ".fav-links", displayFavShows);
 
-function displayShows() {
-  var urlParams = new URLSearchParams(window.location.search);
-  var q = urlParams.get("q");
-  console.log(q);
-  //change var artist = to: $("searchbar").val()
-  var showAPI_URL =
-    "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&keyword=" +
-    q +
-    "&apikey=noHazJHm5x0GrV21AbEv7JKS4WVzGswJ";
-  $.ajax({
-    url: showAPI_URL,
-    method: "GET"
-  }).then(function(response) {
-    console.log(response);
-
-    var events = response._embedded.events;
-
-    for (var s = 0; s < events.length; s++) {
-      var show = events[s].name;
-      var location = events[s]._embedded.venues[0].city.name;
-      var date = events[s].dates.start.localDate;
-      var convertedDate = moment(date, "YYYY/MM/DD").format("MM/DD/YYYY");
-
-      var newDiv = $("<tr class='mb-3'>");
-      var showCol = $("<td>");
-      var showURL = showCol.append(
-        "<a href='" + response._embedded.events[s].url + "'>" + show + "</a>"
-      );
-      var locCol = $("<td>").text(location);
-      var dateCol = $("<td>").text(convertedDate);
-
-      newDiv.append(showURL, locCol, dateCol);
-      $("#showsTable").append(newDiv);
-    }
-  });
-}
-function displayFood() {
-  //delete var on location (global)
-  var location = "charlotte";
-  var foodAPI_URL =
-    "https://developers.zomato.com/api/v2.1/search?q=" +
-    location +
-    "&count=4&sort=rating";
-
-  $.ajax({
-    headers: { "user-key": "8ceaf126b0d71b209d1b93d94063371d" },
-    url: foodAPI_URL,
-    method: "GET"
-  }).then(function(input) {
-    console.log(input);
-
-    food = input.restaurants;
-
-    for (var f = 0; f < food.length; f++) {
-      console.log(food[f]);
-      var name = food[f].restaurant.name;
-      console.log(name);
-      var type = food[f].restaurant.cuisines;
-      console.log(type);
-      var image = food[f].restaurant.featured_image;
-      console.log(image);
-      var restURL = food[f].restaurant.url;
-      console.log(restURL);
-
-      var newDiv = $("<div>");
-      var newImg = $(
-        "<a href='" +
-          restURL +
-          "'><img class='zomatoImg' src='" +
-          image +
-          "'></a>"
-      );
-      newDiv.append(name, type, newImg);
-      $("#zomato").append(newDiv);
-    }
-  });
-}
-
-$("#search-button").on("click", function(event) {
-  event.preventDefault();
-  displayShows();
-});
 displayShows();
-displayFood();

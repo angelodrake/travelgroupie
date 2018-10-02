@@ -1,14 +1,15 @@
-#close:hover,
-#favorite:hover {
+$white: #ffffff;
+
+%cursor {
   cursor: pointer;
 }
 
 nav {
-  color: #ffffff;
+  color: $white;
 }
 
 footer {
-  color: #ffffff;
+  color: $white;
 }
 
 container {
@@ -18,7 +19,6 @@ container {
 #icon {
   max-width: 200px;
 }
-
 i {
   height: 30px;
   width: 30px;
@@ -31,7 +31,7 @@ i {
 
 body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 #flexBody {
@@ -55,18 +55,19 @@ body {
   z-index: 50;
   opacity: 0.95;
 }
-
 #close {
   position: absolute;
   left: 50%;
   bottom: 50px;
   height: 30px;
   width: 50px;
-  color: #ffffff;
+  color: $white;
 }
-
+#close:hover {
+  @extend %cursor;
+}
 #userLogin {
-  color: #ffffff;
+  color: $white;
   padding: 5px;
   margin-top: 250px;
 }
@@ -74,7 +75,6 @@ body {
 .hide {
   display: none;
 }
-
 .skyscanner-widget {
   padding: 10px;
   border-radius: 10px;
@@ -110,12 +110,12 @@ body {
 
 .gradient {
   background-image: linear-gradient(
-    to right,
-    #4f000b 0%,
-    #720026 21%,
-    #ce4257 52%,
-    #ff7f51 78%,
-    #ff9b54 100%
+                  to right,
+                  #4f000b 0%,
+                  #720026 21%,
+                  #ce4257 52%,
+                  #ff7f51 78%,
+                  #ff9b54 100%
   );
 }
 
@@ -145,21 +145,21 @@ body {
 }
 
 .overlayText {
-  color: #ffffff;
+  color: $white;
 }
 
 .user-list {
   position: absolute;
   top: 280px;
   left: 10%;
-  color: #ffffff;
+  color: $white;
 }
 
 .logout-btn {
   position: absolute;
   bottom: 125px;
   left: 35%;
-  color: #ffffff;
+  color: $white;
 }
 
 .detailsImg {
@@ -172,9 +172,12 @@ body {
 }
 
 .fav-list {
-  color: #ffffff;
+  color: $white;
 }
 
+#favorite:hover {
+  @extend %cursor;
+}
 #darkButtonDiv {
   position: absolute;
   left: 33%;
@@ -190,5 +193,3 @@ body {
   background: #ffffff;
   color: #000000;
 }
-
-/*# sourceMappingURL=style.css.map */
