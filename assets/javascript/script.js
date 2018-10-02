@@ -1,4 +1,3 @@
-var userAuthenticated = false;
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCi5XqbAdfXV9xrLdO_vyb5cu1WbzD7ezE",
@@ -81,7 +80,7 @@ function pullUserData() {
         favLink.text(favKeys[i]);
         favLink.addClass("fav-links");
         favLink.attr("href", link);
-        favLink.addClass("fav-list")
+        favLink.addClass("fav-list");
 
         $(".user-list").append(favLink);
         $(".user-list").append("<br> <br>");
@@ -212,16 +211,22 @@ function pushFavorite() {
 
 //on click handler for menu slide out
 $("#login-btn").on("click", function() {
-  $("#mainMenu").animate({
-    width: "300px"
-  }, 1);
+  $("#mainMenu").animate(
+    {
+      width: "300px"
+    },
+    1
+  );
   $("#login-btn").toggleClass("hide");
 });
 //on click handler for closing menu
 $("#close").on("click", function() {
-  $("#mainMenu").animate({
-    width: "0px"
-  }, 1);
+  $("#mainMenu").animate(
+    {
+      width: "0px"
+    },
+    1
+  );
   $("#login-btn").toggleClass("hide");
 });
 //on click handler for search bar on navigation page
@@ -276,27 +281,43 @@ $(document).on("click", ".show-link", function() {
   $("#detailsImg").addClass("detailsImg");
   $("#detailsText").text(eventInfo);
   $("#detailsTitle").text(eventTitle);
-  $("#detailsTitle").addClass("eventTitle")
-  $("#detailsTitle").addClass("text-center")
-  $("#detailsTitle").addClass("mx-auto")
+  $("#detailsTitle").addClass("eventTitle");
+  $("#detailsTitle").addClass("text-center");
+  $("#detailsTitle").addClass("mx-auto");
   $("#buyTickets").attr("href", eventTickets);
   $("#buyTickets").attr("target", "_blank");
   $("#infoDiv").removeClass("hide");
 });
 
-$("#darkButton").on("click", function(){
-  let text = $(this).attr("data-text")
+$("#darkButton").on("click", function() {
+  let text = $(this).attr("data-text");
   $("body").toggleClass("darkTheme");
   $("#darkButton").toggleClass("lightTheme");
   if (text === "dark") {
-    $("#darkButton").text("Light Theme")
-    $("#darkButton").attr("data-text", "light")
+    $("#darkButton").text("Light Theme");
+    $("#darkButton").attr("data-text", "light");
+    $(".card-body").toggleClass("darkTheme");
+    $(".card-header").toggleClass("darkTheme");
+    $("table").toggleClass("darkTheme");
+    sessionStorage.setItem("darkTheme", "true");
   }
   if (text === "light") {
-    $("#darkButton").text("Dark Theme")
-    $("#darkButton").attr("data-text", "dark")
+    $("#darkButton").text("Dark Theme");
+    $("#darkButton").attr("data-text", "dark");
+    $(".card-body").toggleClass("darkTheme");
+    $(".card-header").toggleClass("darkTheme");
+    $("table").toggleClass("darkTheme");
+    sessionStorage.setItem("darkTheme", "false");
   }
 });
+//darktheme check
+if (sessionStorage.getItem("darkTheme") === "true") {
+  $("body").toggleClass("darkTheme");
+  $(".card-body").toggleClass("darkTheme");
+  $(".card-header").toggleClass("darkTheme");
+  $("table").toggleClass("darkTheme");
+  $("#darkButton").toggleClass("lightTheme");
+}
 
 //on click handler for adding user favorite
 $(document).on("click", ".fa-star", function(event) {
