@@ -1,4 +1,3 @@
-var userAuthenticated = false;
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCi5XqbAdfXV9xrLdO_vyb5cu1WbzD7ezE",
@@ -290,19 +289,35 @@ $(document).on("click", ".show-link", function() {
   $("#infoDiv").removeClass("hide");
 });
 
-$("#darkButton").on("click", function(){
-  let text = $(this).attr("data-text")
+$("#darkButton").on("click", function() {
+  let text = $(this).attr("data-text");
   $("body").toggleClass("darkTheme");
   $("#darkButton").toggleClass("lightTheme");
   if (text === "dark") {
-    $("#darkButton").text("Light Theme")
-    $("#darkButton").attr("data-text", "light")
+    $("#darkButton").text("Light Theme");
+    $("#darkButton").attr("data-text", "light");
+    $(".card-body").toggleClass("darkTheme");
+    $(".card-header").toggleClass("darkTheme");
+    $("table").toggleClass("darkTheme");
+    sessionStorage.setItem("darkTheme", "true");
   }
   if (text === "light") {
-    $("#darkButton").text("Dark Theme")
-    $("#darkButton").attr("data-text", "dark")
+    $("#darkButton").text("Dark Theme");
+    $("#darkButton").attr("data-text", "dark");
+    $(".card-body").toggleClass("darkTheme");
+    $(".card-header").toggleClass("darkTheme");
+    $("table").toggleClass("darkTheme");
+    sessionStorage.setItem("darkTheme", "false");
   }
 });
+//darktheme check
+if (sessionStorage.getItem("darkTheme") === "true") {
+  $("body").toggleClass("darkTheme");
+  $(".card-body").toggleClass("darkTheme");
+  $(".card-header").toggleClass("darkTheme");
+  $("table").toggleClass("darkTheme");
+  $("#darkButton").toggleClass("lightTheme");
+}
 
 //on click handler for adding user favorite
 $(document).on("click", ".fa-star", function(event) {
