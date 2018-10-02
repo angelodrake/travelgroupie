@@ -317,6 +317,8 @@ if (sessionStorage.getItem("darkTheme") === "true") {
   $(".card-header").toggleClass("darkTheme");
   $("table").toggleClass("darkTheme");
   $("#darkButton").toggleClass("lightTheme");
+  $("#darkButton").text("Light Theme");
+  $("#darkButton").attr("data-text", "light");
 }
 
 //on click handler for adding user favorite
